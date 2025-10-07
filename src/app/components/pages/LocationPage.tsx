@@ -9,11 +9,7 @@ interface LocationPageProps {
   imageUrl: string;
 }
 
-export function LocationPage({
-  venue,
-  venueAddress,
-  imageUrl,
-}: LocationPageProps) {
+export function LocationPage({ venue, venueAddress }: LocationPageProps) {
   return (
     <div className="min-h-screen bg-stone-50 pb-24">
       <div className="max-w-lg mx-auto">

@@ -7,10 +7,7 @@ interface ConcertInfoPageProps {
   imageUrl?: string;
 }
 
-export function ConcertInfoPage({
-  artistName,
-  imageUrl = 'https://images.unsplash.com/photo-1709586354086-87c262c5d505?w=800&q=80',
-}: ConcertInfoPageProps) {
+export function ConcertInfoPage({ artistName }: ConcertInfoPageProps) {
   return (
     <div className="min-h-screen bg-stone-50 pb-24">
       <div className="max-w-lg mx-auto">
