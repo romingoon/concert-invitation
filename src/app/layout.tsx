@@ -1,5 +1,5 @@
 'use client';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import './index.css';
 
