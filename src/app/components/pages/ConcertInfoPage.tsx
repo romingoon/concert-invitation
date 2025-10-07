@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { Music, Heart } from 'lucide-react';
-import Image from 'next/image';
 
 interface ConcertInfoPageProps {
   artistName: string;
