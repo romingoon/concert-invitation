@@ -12,7 +12,7 @@ export default function Page() {
   const [activeTab, setActiveTab] = useState('home');
 
   const concertData = {
-    artistName: '새로핌 교회음악 페스티벌 연주회',
+    artistName: '주님과 함께 걷는 길은',
     concertDate: '2025년 10월 18일 (토)',
     concertTime: '오후 3시',
     venue: '새문안교회 1층 새문안홀',
