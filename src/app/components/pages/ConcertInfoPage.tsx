@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
 import { Music, Heart } from 'lucide-react';
+import Image from 'next/image';
 
 interface ConcertInfoPageProps {
-  artistName: string;
+  title: string;
+  organizer: string;
   imageUrl?: string;
 }
 
-export function ConcertInfoPage({ artistName }: ConcertInfoPageProps) {
+export function ConcertInfoPage({ title, organizer }: ConcertInfoPageProps) {
   return (
-    <div className="min-h-screen bg-stone-50 pb-24">
+    <div className="min-h-screen bg-stone-50 pb-24 overflow-y-auto">
       <div className="max-w-lg mx-auto">
         {/* Header */}
         <motion.div
@@ -17,18 +19,10 @@ export function ConcertInfoPage({ artistName }: ConcertInfoPageProps) {
           className="pt-8 pb-6 px-6 text-center"
         >
           <h2 className="text-2xl text-gray-900 mb-1">연주회 소개</h2>
-          <p className="text-sm text-gray-600">{artistName}</p>
+          <p className="text-sm text-gray-600">{title}</p>
         </motion.div>
 
         <div className="px-6 space-y-5">
-          {/* Main Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1 }}
-            className="rounded-2xl overflow-hidden shadow-sm"
-          ></motion.div>
-
           {/* About the Concert */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -44,8 +38,8 @@ export function ConcertInfoPage({ artistName }: ConcertInfoPageProps) {
             </div>
             <div className="space-y-3.5 text-sm text-gray-700 leading-relaxed">
               <p>
-                이번 연주회는 새로핌찬양대가 주최하는 교회음악 페스티벌로,
-                신앙의 여정을 함께 걸어가는 모든 이들을 위한 특별한 시간입니다.
+                {title}는 {organizer}가 주최하는 교회음악 페스티벌로, 신앙의
+                여정을 함께 걸어가는 모든 이들을 위한 특별한 시간입니다.
               </p>
               <p>
                 주님과 동행하는 삶의 여정을 음악으로 표현하며, 각 곡마다 담긴
@@ -103,11 +97,15 @@ export function ConcertInfoPage({ artistName }: ConcertInfoPageProps) {
             className="bg-gray-900 rounded-2xl p-6 shadow-sm"
           >
             <p className="text-sm italic text-gray-100 leading-relaxed mb-3">
-              시와 찬송과 신령한 노래들로 서로 화답하며
+              너는 마음을 다하여 여호와를 신뢰하고
               <br />
-              너희의 마음으로 주께 노래하며 찬송하며
+              네 명철을 의지하지 말라
+              <br />
+              너는 범사에 그를 인정하라
+              <br />
+              그리하면 네 길을 지도하시리라
             </p>
-            <p className="text-xs text-gray-400">- 에베소서 5:19</p>
+            <p className="text-xs text-gray-400">- 잠언 3:5-6</p>
           </motion.div>
 
           {/* Footer Note */}

@@ -2,13 +2,15 @@ import type { Metadata } from 'next';
 import './index.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://concert-invitation.vercel.app/'),
   title: '주님과 함께 걷는 길은',
   description:
     '제5회 새로핌 교회음악 페스티벌 연주회 초대장 - 주님과 함께 걷는 길은 ',
   openGraph: {
     title: '주님과 함께 걷는 길은',
-    description: '제5회 새로핌 교회음악 페스티벌 연주회 초대장',
-    url: 'https://concert-invitation.vercel.app/',
+    description:
+      '제5회 새로핌 교회음악 페스티벌 연주회 &#39;주님과 함께 걷는 길은&#39;에 초대합니다',
+    url: '/',
     siteName: '주님과 함께 걷는 길은',
     images: [
       {

@@ -1,5 +1,3 @@
-'use client';
-
 import { motion } from 'framer-motion';
 import { Home, Info, Calendar, MapPin } from 'lucide-react';
 
@@ -13,10 +11,10 @@ export function BottomNavigation({
   onTabChange,
 }: BottomNavigationProps) {
   const tabs = [
-    { id: 'home', label: 'Home', icon: Home },
-    { id: 'info', label: 'Concert Info', icon: Info },
-    { id: 'program', label: 'Program', icon: Calendar },
-    { id: 'location', label: 'Location', icon: MapPin },
+    { id: 'home', label: '홈', icon: Home },
+    { id: 'info', label: '연주회 소개', icon: Info },
+    { id: 'program', label: '프로그램', icon: Calendar },
+    { id: 'location', label: '오시는 길', icon: MapPin },
   ];
 
   return (
@@ -60,5 +58,3 @@ export function BottomNavigation({
     </div>
   );
 }
-
-export default BottomNavigation;

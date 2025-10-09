@@ -1,19 +1,23 @@
 import { motion } from 'framer-motion';
 import { Music } from 'lucide-react';
 import Image from 'next/image';
-
 interface HomePageProps {
-  artistName: string;
+  title: string;
+  subtitle: string;
+  organizer: string;
   concertDate: string;
   concertTime: string;
+  venue: string;
   imageUrl: string;
 }
 
 export function HomePage({
-  artistName,
+  title,
+  subtitle,
+  organizer,
   concertDate,
   concertTime,
-  imageUrl,
+  venue,
 }: HomePageProps) {
   return (
     <div className="min-h-screen relative overflow-hidden pb-20">
@@ -21,8 +25,9 @@ export function HomePage({
       <div className="absolute inset-0">
         <Image
           src="/images/background.jpg"
-          fill
           alt="Background"
+          fill
+          priority
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-white/10" />
@@ -34,37 +39,26 @@ export function HomePage({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center space-y-6 mb-10"
+          className="text-center space-y-5 mb-10"
         >
-          <div className="inline-flex items-center gap-2 mb-3 bg-white/95 px-6 py-2.5 rounded-full shadow-sm">
-            <Music className="w-4 h-4 text-emerald-700" />
-            <span className="text-xs text-emerald-800 uppercase tracking-wide">
-              제5회 새로핌 교회음악 페스티벌
-            </span>
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 bg-white/95 px-5 py-2 rounded-full shadow-sm">
+              <Music className="w-4 h-4 text-emerald-700" />
+              <span className="text-xs text-emerald-800 tracking-wide">
+                {subtitle}
+              </span>
+            </div>
           </div>
 
-          <h1 className="text-4xl text-gray-900 mb-3 px-4">{artistName}</h1>
+          <div className="space-y-2 px-4">
+            <h1 className="text-4xl text-white-900">{title}</h1>
+            <p className="text-base text-gray-700">{organizer}</p>
+          </div>
 
-          <div className="space-y-1.5">
+          <div className="space-y-1.5 pt-2">
             <p className="text-xl text-gray-800">{concertDate}</p>
             <p className="text-lg text-gray-700">{concertTime}</p>
-          </div>
-        </motion.div>
-
-        {/* Hero Image */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="relative w-full max-w-sm mb-8"
-        >
-          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg bg-white">
-            <Image
-              src={imageUrl}
-              alt="Concert"
-              fill
-              className="w-full h-full object-cover"
-            />
+            <p className="text-lg text-gray-700">{venue}</p>
           </div>
         </motion.div>
 

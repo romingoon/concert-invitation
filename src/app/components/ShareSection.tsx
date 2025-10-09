@@ -1,0 +1,203 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { Share2, Link as LinkIcon, Check } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Button } from './ui/button';
+
+interface ShareSectionProps {
+  title: string;
+  url?: string;
+}
+
+export function ShareSection({ title, url }: ShareSectionProps) {
+  const [copied, setCopied] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState('');
+
+  // 클라이언트에서만 URL 가져오기
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setCurrentUrl(url || window.location.href);
+    }
+  }, [url]);
+
+  const handleKakaoShare = () => {
+    if (typeof window === 'undefined') return;
+
+    const { Kakao } = window;
+
+    if (!Kakao || !Kakao.isInitialized()) {
+      alert('카카오 SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
+      return;
+    }
+
+    // sendDefault 사용 (커스텀 버튼)
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: title,
+        description: '주님과 함께 걷는 음악회에 여러분을 초대합니다',
+        imageUrl:
+          'https://images.unsplash.com/photo-1584000166179-d95db66ac613?w=800&q=80',
+        link: {
+          mobileWebUrl: currentUrl,
+          webUrl: currentUrl,
+        },
+      },
+      buttons: [
+        {
+          title: '자세히 보기',
+          link: {
+            mobileWebUrl: currentUrl,
+            webUrl: currentUrl,
+          },
+        },
+      ],
+    });
+  };
+
+  // sendScrap 방식 (OG 태그 기반)
+  const handleKakaoShareScrap = () => {
+    if (typeof window === 'undefined') return;
+
+    const { Kakao } = window;
+
+    if (!Kakao || !Kakao.isInitialized()) {
+      alert('카카오 SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
+      return;
+    }
+
+    // sendScrap: OG 태그를 기반으로 자동 생성
+    Kakao.Share.sendScrap({
+      requestUrl: currentUrl,
+    });
+  };
+
+  const handleFacebookShare = () => {
+    if (typeof window === 'undefined') return;
+
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      currentUrl
+    )}`;
+    window.open(facebookUrl, '_blank', 'width=600,height=400');
+  };
+
+  const handleCopyLink = async () => {
+    if (!currentUrl) return;
+
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      // Fallback
+      const textArea = document.createElement('textarea');
+      textArea.value = currentUrl;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        document.execCommand('copy');
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (fallbackErr) {
+        alert(`링크를 복사하세요: ${currentUrl}`);
+      }
+
+      document.body.removeChild(textArea);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 to-emerald-50 flex items-center justify-center pb-24 px-6">
+      <div className="max-w-md w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center space-y-8"
+        >
+          {/* Icon */}
+          <div className="flex justify-center">
+            <div className="p-5 bg-white rounded-full shadow-lg">
+              <Share2 className="w-10 h-10 text-emerald-700" />
+            </div>
+          </div>
+
+          {/* Title */}
+          <div className="space-y-2">
+            <h2 className="text-2xl text-gray-900">초대장 공유하기</h2>
+            <p className="text-sm text-gray-600">
+              소중한 분들과 이 특별한 연주회를 함께하세요
+            </p>
+          </div>
+
+          {/* Share Buttons */}
+          <div className="space-y-3">
+            <Button
+              onClick={handleKakaoShare}
+              className="w-full h-14 bg-[#FEE500] hover:bg-[#FDD835] text-gray-900 rounded-xl shadow-md transition-all hover:shadow-lg"
+            >
+              <svg
+                className="w-6 h-6 mr-3"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.838 2.014 5.313 5 6.563v3.437l3.281-1.969C11.125 18.531 11.563 18.5 12 18.5c5.523 0 10-3.477 10-8S17.523 3 12 3z" />
+              </svg>
+              카카오톡으로 공유
+            </Button>
+
+            <Button
+              onClick={handleFacebookShare}
+              className="w-full h-14 bg-[#1877F2] hover:bg-[#166FE5] text-white rounded-xl shadow-md transition-all hover:shadow-lg"
+            >
+              <svg
+                className="w-6 h-6 mr-3"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+              페이스북으로 공유
+            </Button>
+
+            <Button
+              onClick={handleCopyLink}
+              className="w-full h-14 bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-200 rounded-xl shadow-md transition-all hover:shadow-lg"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-5 h-5 mr-3 text-emerald-600" />
+                  링크가 복사되었습니다
+                </>
+              ) : (
+                <>
+                  <LinkIcon className="w-5 h-5 mr-3" />
+                  링크 복사하기
+                </>
+              )}
+            </Button>
+          </div>
+
+          {/* Footer */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="pt-6"
+          >
+            <p className="text-xs text-gray-500">
+              함께 찬양하며 주님을 경배하는 시간에 초대합니다
+            </p>
+          </motion.div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}

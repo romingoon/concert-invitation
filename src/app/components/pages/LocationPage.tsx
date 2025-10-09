@@ -1,17 +1,20 @@
 import { motion } from 'framer-motion';
-import { MapPin, Navigation, Phone, Bus, Car, Clock } from 'lucide-react';
+import { MapPin, Navigation, Bus, Car } from 'lucide-react';
 import { Button } from '../ui/button';
 import Image from 'next/image';
-
 interface LocationPageProps {
   venue: string;
   venueAddress: string;
   imageUrl: string;
 }
 
-export function LocationPage({ venue, venueAddress }: LocationPageProps) {
+export function LocationPage({
+  venue,
+  venueAddress,
+  imageUrl,
+}: LocationPageProps) {
   return (
-    <div className="min-h-screen bg-stone-50 pb-24">
+    <div className="min-h-screen bg-stone-50 pb-24 overflow-y-auto">
       <div className="max-w-lg mx-auto">
         {/* Header */}
         <motion.div
@@ -32,13 +35,6 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
             className="rounded-2xl overflow-hidden shadow-sm"
           >
             <div className="relative">
-              <Image
-                src="/images/background.jpg"
-                alt="Venue"
-                width={300}
-                height={400}
-                className="w-full aspect-[16/10] object-cover"
-              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
                 <h3 className="text-xl mb-1">{venue}</h3>
@@ -118,7 +114,7 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
                 <div className="flex-1 min-w-0">
                   <h4 className="text-sm text-gray-900 mb-1">대중교통</h4>
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    지하철 5호선 광화문역 3번 출구
+                    지하철 5호선 광화문역 번 출구
                     <br />
                     도보 5분
                   </p>
@@ -136,31 +132,8 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
                   <p className="text-sm text-gray-600 leading-relaxed">
                     건물 내 주차장 이용 가능
                     <br />
-                    <span className="text-xs text-gray-500">
-                      2시간 무료 주차
-                    </span>
                   </p>
                 </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="bg-white rounded-2xl p-5 shadow-sm"
-          >
-            <h3 className="text-sm text-gray-900 mb-3">문의</h3>
-            <div className="space-y-2.5">
-              <div className="flex items-center gap-3 text-sm text-gray-700">
-                <Phone className="w-4 h-4 text-emerald-700" />
-                <span>02-1234-5678</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-gray-700">
-                <Clock className="w-4 h-4 text-emerald-700" />
-                <span>입장 시작: 오후 7:00</span>
               </div>
             </div>
           </motion.div>
