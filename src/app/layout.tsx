@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './index.css';
+import ImagePreloader from './components/ImagePreloader';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://concert-invitation.vercel.app/'),
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body suppressHydrationWarning>
+        <ImagePreloader />
         <main className="pb-20">{children}</main>
       </body>
     </html>

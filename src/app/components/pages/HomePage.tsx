@@ -8,7 +8,6 @@ interface HomePageProps {
   concertDate: string;
   concertTime: string;
   venue: string;
-  imageUrl: string;
 }
 
 export function HomePage({

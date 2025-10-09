@@ -1,58 +1,68 @@
 import { motion } from 'framer-motion';
-import { Music2 } from 'lucide-react';
+import { ListMusic } from 'lucide-react';
 
 interface ProgramItem {
+  composer: string;
   songTitle: string;
-  performer: string;
-  accompanist: string;
+  performers: string;
 }
 
 export function ProgramPage() {
   const programs: ProgramItem[] = [
     {
-      songTitle: 'Amazing Grace',
-      performer: '소프라노 김은혜',
-      accompanist: '피아노 박성은',
+      composer: '이현철',
+      songTitle: '왕이신 나의 하나님',
+      performers: 'sop.임서연 / pf.김윤희',
     },
     {
-      songTitle: '주님의 기도',
-      performer: '테너 이요한',
-      accompanist: '오르간 최민지',
+      composer: 'C. Frank',
+      songTitle: '생명의 양식',
+      performers: 'bar.이경진 / org.김보미',
     },
     {
-      songTitle: 'Ave Maria',
-      performer: '메조소프라노 정마리아',
-      accompanist: '피아노 박성은',
+      composer: '오병희',
+      songTitle: '주님 만드신 세상',
+      performers: 'sop.이승숙, bar.하범 / pf.김윤희',
     },
     {
-      songTitle: '나 주의 도움 받고자',
-      performer: '바리톤 강다윗',
-      accompanist: '피아노 송지혜',
+      composer: '홍영은 편곡',
+      songTitle: '오 신실하신 주',
+      performers: 'pf.홍영은',
     },
     {
-      songTitle: 'Panis Angelicus',
-      performer: '소프라노 김은혜 & 테너 이요한',
-      accompanist: '오르간 최민지',
+      composer: '홍지열 편곡',
+      songTitle: '너 예수께 조용히 나가',
+      performers: 'sop.고연주 / pf.김윤희',
     },
     {
-      songTitle: '주 은혜임을',
-      performer: '알토 안사라',
-      accompanist: '피아노 송지혜',
+      composer: '나운영',
+      songTitle: '여호와는 나의 목자시니',
+      performers: 'bar.박재용 / pf.이원섭',
     },
     {
-      songTitle: 'O Holy Night',
-      performer: '테너 이요한',
-      accompanist: '오르간 최민지',
+      composer: 'S. Fietz',
+      songTitle: '선한 능력으로',
+      performers: 'm.sop.민은홍, 이윤옥 / pf.김보미',
     },
     {
-      songTitle: '내 주를 가까이',
-      performer: '전체 합창',
-      accompanist: '피아노 & 오르간 앙상블',
+      composer: '손경민',
+      songTitle: '주의 은혜라',
+      performers: 'bar.김창동 / pf.이원섭',
+    },
+    {
+      composer: '양재훈 편곡',
+      songTitle: '예수를 나의 구주 삼고',
+      performers: 'sop.김보미 / pf.홍영은',
+    },
+    {
+      composer: '',
+      songTitle: '',
+      performers: 'bar.이원섭 / pf.홍영은',
     },
   ];
 
   return (
-    <div className="min-h-screen bg-stone-50 pb-24">
+    <div className="min-h-screen bg-stone-50 pb-24 overflow-y-auto">
       <div className="max-w-lg mx-auto">
         {/* Header */}
         <motion.div
@@ -75,26 +85,22 @@ export function ProgramPage() {
               className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="flex gap-4">
-                {/* Number Badge */}
-                <div className="flex-shrink-0">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-100 to-teal-100 flex items-center justify-center">
-                    <span className="text-sm text-emerald-800">
-                      {index + 1}
-                    </span>
-                  </div>
-                </div>
-
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-start gap-2 mb-2">
-                    <Music2 className="w-4 h-4 text-emerald-700 mt-0.5 flex-shrink-0" />
+                  <div className="flex items-start gap-2 mb-1">
+                    <ListMusic className="w-4 h-4 text-emerald-700 mt-0.5 flex-shrink-0" />
                     <h3 className="text-base text-gray-900 leading-snug">
                       {item.songTitle}
                     </h3>
+
+                    <p className="text-base text-gray-600 text-xs text-balance">
+                      &#40;{item.composer}&#41;
+                    </p>
                   </div>
                   <div className="space-y-0.5 text-sm">
-                    <p className="text-gray-700">{item.performer}</p>
-                    <p className="text-gray-500 text-xs">{item.accompanist}</p>
+                    <p className="text-gray-700 text-right">
+                      {item.performers}
+                    </p>
                   </div>
                 </div>
               </div>

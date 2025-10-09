@@ -16,15 +16,17 @@ export default function App() {
     info: null,
     program: null,
     location: null,
+    share: null,
   });
 
   const concertData = {
     title: '주님과 함께 걷는 길은',
-    subtitle: '제5회 새로핌 교회음악 페스티벌 연주회',
+    subtitle: '새로핌 교회음악 페스티벌 연주회',
     organizer: '새문안교회 새로핌찬양대',
-    concertDate: '2025년 10월 18일 (토)',
+    concertDate: '2025년 10월 18일(토)',
     concertTime: '오후 3시',
-    venue: '새문안교회 1층 새문안홀',
+    venue: '새문안교회',
+    venueDetail: '새문안교회 1층 새문안홀',
     venueAddress: '서울특별시 종로구 새문안로 79',
     heroImage:
       'https://images.unsplash.com/photo-1584000166179-d95db66ac613?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbGFzc2ljYWwlMjBtdXNpYyUyMGNvbmNlcnQlMjBwb3N0ZXJ8ZW58MXx8fHwxNzU5Njk5NjM3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
@@ -88,15 +90,14 @@ export default function App() {
             organizer={concertData.organizer}
             concertDate={concertData.concertDate}
             concertTime={concertData.concertTime}
-            imageUrl={concertData.heroImage}
-            venue={concertData.venue}
+            venue={concertData.venueDetail}
           />
         </section>
 
         {/* Concert Info Section */}
         <section
           ref={(el) => {
-            sectionsRef.current.home = el;
+            sectionsRef.current.info = el;
           }}
           className="min-h-screen snap-start"
         >
@@ -110,7 +111,7 @@ export default function App() {
         {/* Program Section */}
         <section
           ref={(el) => {
-            sectionsRef.current.home = el;
+            sectionsRef.current.program = el;
           }}
           className="min-h-screen snap-start"
         >
@@ -120,7 +121,7 @@ export default function App() {
         {/* Location Section */}
         <section
           ref={(el) => {
-            sectionsRef.current.home = el;
+            sectionsRef.current.location = el;
           }}
           className="min-h-screen snap-start"
         >
@@ -132,7 +133,12 @@ export default function App() {
         </section>
 
         {/* Share Section */}
-        <section className="min-h-screen snap-start">
+        <section
+          ref={(el) => {
+            sectionsRef.current.share = el;
+          }}
+          className="snap-start"
+        >
           <ShareSection title={concertData.title} />
         </section>
       </div>
