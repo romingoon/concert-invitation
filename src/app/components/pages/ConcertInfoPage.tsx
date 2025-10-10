@@ -3,11 +3,16 @@ import { Music, Heart } from 'lucide-react';
 
 interface ConcertInfoPageProps {
   title: string;
+  subtitle: string;
   organizer: string;
   imageUrl?: string;
 }
 
-export function ConcertInfoPage({ title, organizer }: ConcertInfoPageProps) {
+export function ConcertInfoPage({
+  title,
+  subtitle,
+  organizer,
+}: ConcertInfoPageProps) {
   return (
     <div className="min-h-screen bg-stone-50 pb-24 overflow-y-auto">
       <div className="max-w-lg mx-auto">
@@ -37,8 +42,9 @@ export function ConcertInfoPage({ title, organizer }: ConcertInfoPageProps) {
             </div>
             <div className="space-y-3.5 text-sm text-gray-700 leading-relaxed">
               <p>
-                {title}는 {organizer}가 주최하는 교회음악 페스티벌로, 신앙의
-                여정을 함께 걸어가는 모든 이들을 위한 특별한 시간입니다.
+                &quot;{title}&quot;이라는 타이틀로 진행되는 이번 연주회는{' '}
+                {organizer}가 주최하는 교회음악 페스티벌로, 신앙의 여정을 함께
+                걸어가는 모든 이들을 위한 특별한 시간입니다.
               </p>
               <p>
                 주님과 동행하는 삶의 여정을 음악으로 표현하며, 각 곡마다 담긴

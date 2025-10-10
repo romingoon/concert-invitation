@@ -90,7 +90,7 @@ export default function App() {
             organizer={concertData.organizer}
             concertDate={concertData.concertDate}
             concertTime={concertData.concertTime}
-            venue={concertData.venueDetail}
+            venueDetail={concertData.venueDetail}
           />
         </section>
 
@@ -103,6 +103,7 @@ export default function App() {
         >
           <ConcertInfoPage
             title={concertData.title}
+            subtitle={concertData.subtitle}
             organizer={concertData.organizer}
             imageUrl={concertData.heroImage}
           />

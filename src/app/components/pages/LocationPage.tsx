@@ -7,9 +7,11 @@ import {
   BusFront,
   CarFront,
   TramFront,
+  Loader2,
+  AlertCircle,
 } from 'lucide-react';
 import { Button } from '../ui/button';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Script from 'next/script';
 
 interface LocationPageProps {
@@ -18,9 +20,17 @@ interface LocationPageProps {
   imageUrl: string;
 }
 
+interface UserLocation {
+  latitude: number;
+  longitude: number;
+}
+
 export function LocationPage({ venue, venueAddress }: LocationPageProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
 
   // 새문안교회 좌표
   const CHURCH_COORDS = {
@@ -28,12 +38,187 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
     lng: 126.9730817,
   };
 
-  // 네이버 지도 초기화
-  const initializeMap = () => {
-    if (!mapRef.current || !window.naver || !window.naver.maps) {
-      console.log('Naver Maps API not loaded yet');
-      return;
+  // 사용자 현재 위치 가져오기
+  const getCurrentLocation = (): Promise<UserLocation> => {
+    return new Promise((resolve, reject) => {
+      // Geolocation API 지원 확인
+      if (!navigator.geolocation) {
+        reject(new Error('이 브라우저는 위치 서비스를 지원하지 않습니다.'));
+        return;
+      }
+
+      setLocationLoading(true);
+      setLocationError(null);
+
+      const options = {
+        enableHighAccuracy: true, // 높은 정확도 요청
+        timeout: 10000, // 10초 타임아웃
+        maximumAge: 300000, // 5분간 캐시된 위치 사용
+      };
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const location = { latitude, longitude };
+          setUserLocation(location);
+          setLocationLoading(false);
+          resolve(location);
+        },
+        (error) => {
+          setLocationLoading(false);
+          let errorMessage = '';
+
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              errorMessage =
+                '위치 정보 접근이 거부되었습니다. 브라우저 설정에서 위치 권한을 허용해주세요.';
+              break;
+            case error.POSITION_UNAVAILABLE:
+              errorMessage = '위치 정보를 사용할 수 없습니다.';
+              break;
+            case error.TIMEOUT:
+              errorMessage = '위치 정보를 가져오는데 시간이 초과되었습니다.';
+              break;
+            default:
+              errorMessage = '알 수 없는 오류가 발생했습니다.';
+          }
+
+          setLocationError(errorMessage);
+          reject(new Error(errorMessage));
+        },
+        options
+      );
+    });
+  };
+
+  // iOS용 앱 실행 함수
+  const openIOSApp = (appUrl: string, fallbackUrl: string) => {
+    const clickedAt = Date.now();
+    window.location.href = appUrl;
+
+    setTimeout(() => {
+      if (Date.now() - clickedAt < 2000) {
+        window.location.href = fallbackUrl;
+      }
+    }, 1500);
+  };
+
+  // 네이버 지도 앱으로 열기
+  const handleOpenNaverMap = () => {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+      const intentUrl = `intent://place?lat=${CHURCH_COORDS.lat}&lng=${
+        CHURCH_COORDS.lng
+      }&name=${encodeURIComponent(
+        venue
+      )}&appname=com.example.myapp#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
+
+      window.location.href = intentUrl;
+    } else if (isIOS) {
+      const naverMapUrl = `nmap://place?lat=${CHURCH_COORDS.lat}&lng=${
+        CHURCH_COORDS.lng
+      }&name=${encodeURIComponent(venue)}&appname=com.example.myapp`;
+
+      const appStoreUrl = 'https://itunes.apple.com/app/id311867728?mt=8';
+      openIOSApp(naverMapUrl, appStoreUrl);
+    } else {
+      window.open(
+        `https://map.naver.com/v5/search/${encodeURIComponent(venueAddress)}`,
+        '_blank'
+      );
     }
+  };
+
+  // 현재 위치에서 길찾기 (개선된 버전)
+  const handleNavigationFromCurrentLocation = async () => {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    try {
+      // 현재 위치 가져오기
+      const currentLocation = userLocation || (await getCurrentLocation());
+
+      if (isAndroid) {
+        // Android: Intent URL로 현재 위치에서 길찾기
+        const intentUrl = `intent://route/public?slat=${
+          currentLocation.latitude
+        }&slng=${currentLocation.longitude}&sname=${encodeURIComponent(
+          '현재 위치'
+        )}&dlat=${CHURCH_COORDS.lat}&dlng=${
+          CHURCH_COORDS.lng
+        }&dname=${encodeURIComponent(
+          venue
+        )}&appname=com.example.myapp#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
+
+        window.location.href = intentUrl;
+      } else if (isIOS) {
+        // iOS: 현재 위치에서 길찾기
+        const naverMapUrl = `nmap://route/public?slat=${
+          currentLocation.latitude
+        }&slng=${currentLocation.longitude}&sname=${encodeURIComponent(
+          '현재 위치'
+        )}&dlat=${CHURCH_COORDS.lat}&dlng=${
+          CHURCH_COORDS.lng
+        }&dname=${encodeURIComponent(venue)}&appname=com.example.myapp`;
+
+        const appStoreUrl = 'https://itunes.apple.com/app/id311867728?mt=8';
+        openIOSApp(naverMapUrl, appStoreUrl);
+      } else {
+        // PC: 네이버 지도 웹에서 현재 위치에서 길찾기
+        window.open(
+          `https://map.naver.com/v5/directions/${currentLocation.longitude},${
+            currentLocation.latitude
+          },현재%20위치,PLACE_POI/${CHURCH_COORDS.lng},${
+            CHURCH_COORDS.lat
+          },${encodeURIComponent(venue)},PLACE_POI/transit`,
+          '_blank'
+        );
+      }
+    } catch (error) {
+      console.error('현재 위치를 가져오는데 실패했습니다:', error);
+      // 위치를 가져올 수 없을 때는 기본 길찾기 실행
+      handleNavigation();
+    }
+  };
+
+  // 기본 길찾기 (목적지만 지정)
+  const handleNavigation = () => {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+      const intentUrl = `intent://route/public?dlat=${CHURCH_COORDS.lat}&dlng=${
+        CHURCH_COORDS.lng
+      }&dname=${encodeURIComponent(
+        venue
+      )}&appname=com.example.myapp#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
+
+      window.location.href = intentUrl;
+    } else if (isIOS) {
+      const naverMapUrl = `nmap://route/public?dlat=${CHURCH_COORDS.lat}&dlng=${
+        CHURCH_COORDS.lng
+      }&dname=${encodeURIComponent(venue)}&appname=com.example.myapp`;
+
+      const appStoreUrl = 'https://itunes.apple.com/app/id311867728?mt=8';
+      openIOSApp(naverMapUrl, appStoreUrl);
+    } else {
+      window.open(
+        `https://map.naver.com/v5/directions/-/-/-/transit?c=${
+          CHURCH_COORDS.lng
+        },${CHURCH_COORDS.lat},15,0,0,0,dh&destination=${encodeURIComponent(
+          venue
+        )},${CHURCH_COORDS.lng},${CHURCH_COORDS.lat}`,
+        '_blank'
+      );
+    }
+  };
+
+  // 네이버 지도 초기화
+  const initializeMap = useCallback(() => {
+    if (!mapRef.current || !window.naver || !window.naver.maps) return;
+
     const location = new window.naver.maps.LatLng(
       CHURCH_COORDS.lat,
       CHURCH_COORDS.lng
@@ -51,16 +236,15 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
       mapDataControl: false,
     };
 
-    try {
-      const map = new window.naver.maps.Map(mapRef.current, mapOptions);
+    const map = new window.naver.maps.Map(mapRef.current, mapOptions);
 
-      // 마커 추가
-      new window.naver.maps.Marker({
-        position: location,
-        map: map,
-        title: venue,
-        icon: {
-          content: `
+    // 교회 마커 추가
+    new window.naver.maps.Marker({
+      position: location,
+      map: map,
+      title: venue,
+      icon: {
+        content: `
           <div style="
             position: relative;
             background: #065f46;
@@ -86,106 +270,66 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
             "></div>
           </div>
         `,
-          size: new window.naver.maps.Size(100, 40),
-          anchor: new window.naver.maps.Point(50, 45),
+        size: new window.naver.maps.Size(100, 40),
+        anchor: new window.naver.maps.Point(50, 45),
+      },
+    });
+
+    // 사용자 위치가 있으면 사용자 위치 마커도 추가
+    if (userLocation) {
+      const userLocationLatLng = new window.naver.maps.LatLng(
+        userLocation.latitude,
+        userLocation.longitude
+      );
+
+      new window.naver.maps.Marker({
+        position: userLocationLatLng,
+        map: map,
+        title: '현재 위치',
+        icon: {
+          content: `
+            <div style="
+              width: 20px;
+              height: 20px;
+              background: #3b82f6;
+              border: 3px solid white;
+              border-radius: 50%;
+              box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            "></div>
+          `,
+          size: new window.naver.maps.Size(20, 20),
+          anchor: new window.naver.maps.Point(10, 10),
         },
       });
-
-      setMapLoaded(true);
-      console.log('Map initialized successfully');
-    } catch (error) {
-      console.error('Error initializing map:', error);
     }
-  };
 
-  const openIOSApp = (appUrl: string, fallbackUrl: string) => {
-    const clickedAt = Date.now();
+    setMapLoaded(true);
+  }, [CHURCH_COORDS.lat, CHURCH_COORDS.lng, userLocation, venue]);
 
-    // 앱 실행 시도
-    window.location.href = appUrl;
-
-    // 1.5초 후 앱이 실행되지 않았으면 App Store로 이동
-    setTimeout(() => {
-      if (Date.now() - clickedAt < 2000) {
-        window.location.href = fallbackUrl;
-      }
-    }, 1500);
-  };
-  // 네이버 지도 앱으로 열기
-  const handleOpenNaverMap = () => {
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-    if (isAndroid) {
-      // Android: Intent URL 사용 (앱이 없으면 자동으로 Play Store로 이동)
-      const intentUrl = `intent://place?lat=${CHURCH_COORDS.lat}&lng=${
-        CHURCH_COORDS.lng
-      }&name=${encodeURIComponent(
-        venue
-      )}&appname=com.example.myapp#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
-
-      window.location.href = intentUrl;
-    } else if (isIOS) {
-      // iOS: JavaScript 타이머를 이용한 fallback 처리
-      const naverMapUrl = `nmap://place?lat=${CHURCH_COORDS.lat}&lng=${
-        CHURCH_COORDS.lng
-      }&name=${encodeURIComponent(venue)}&appname=com.example.myapp`;
-
-      const appStoreUrl = 'https://itunes.apple.com/app/id311867728?mt=8';
-
-      openIOSApp(naverMapUrl, appStoreUrl);
-    } else {
-      // PC: 네이버 지도 웹 열기
-      window.open(
-        `https://map.naver.com/v5/search/${encodeURIComponent(venueAddress)}`,
-        '_blank'
-      );
+  // 컴포넌트 마운트 시 현재 위치 가져오기 시도
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      getCurrentLocation().catch(() => {
+        // 위치를 가져올 수 없어도 앱은 정상 동작
+        console.log('현재 위치를 가져올 수 없습니다.');
+      });
     }
-  };
+  }, []);
 
-  // 길찾기 기능
-  const handleNavigation = () => {
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-    if (isAndroid) {
-      // Android: Intent URL로 길찾기
-      const intentUrl = `intent://route/public?dlat=${CHURCH_COORDS.lat}&dlng=${
-        CHURCH_COORDS.lng
-      }&dname=${encodeURIComponent(
-        venue
-      )}&appname=com.example.myapp#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`;
-
-      window.location.href = intentUrl;
-    } else if (isIOS) {
-      // iOS: 타이머 기반 fallback
-      const naverMapUrl = `nmap://route/public?dlat=${CHURCH_COORDS.lat}&dlng=${
-        CHURCH_COORDS.lng
-      }&dname=${encodeURIComponent(venue)}&appname=com.example.myapp`;
-
-      const appStoreUrl = 'https://itunes.apple.com/app/id311867728?mt=8';
-
-      openIOSApp(naverMapUrl, appStoreUrl);
-    } else {
-      // PC: 네이버 지도 웹 길찾기
-      window.open(
-        `https://map.naver.com/v5/directions/-/-/-/transit?c=${
-          CHURCH_COORDS.lng
-        },${CHURCH_COORDS.lat},15,0,0,0,dh&destination=${encodeURIComponent(
-          venue
-        )},${CHURCH_COORDS.lng},${CHURCH_COORDS.lat}`,
-        '_blank'
-      );
+  // 사용자 위치가 업데이트되면 지도도 다시 초기화
+  useEffect(() => {
+    if (mapLoaded && userLocation) {
+      initializeMap();
     }
-  };
+  }, [userLocation, initializeMap, mapLoaded]);
 
   return (
     <>
       {/* 네이버 지도 스크립트 로드 */}
       <Script
-        strategy="afterInteractive"
+        strategy="beforeInteractive"
         type="text/javascript"
-        src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}
+        src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}
         onReady={initializeMap}
       />
 
@@ -213,12 +357,56 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
                 <MapPin className="w-6 h-6 flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="text-xl mb-2 font-semibold">{venue}</h3>
-                  <p className="text-sm text-gray-900 leading-relaxed">
+                  <p className="text-sm text-white/90 leading-relaxed">
                     {venueAddress}
                   </p>
                 </div>
               </div>
             </motion.div>
+
+            {/* 현재 위치 상태 표시 */}
+            {locationLoading && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-blue-50 border border-blue-200 rounded-xl p-4"
+              >
+                <div className="flex items-center gap-3">
+                  <Loader2 className="w-5 h-5 text-blue-600 animate-spin" />
+                  <span className="text-sm text-blue-800">
+                    현재 위치를 가져오는 중...
+                  </span>
+                </div>
+              </motion.div>
+            )}
+
+            {locationError && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-red-50 border border-red-200 rounded-xl p-4"
+              >
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm text-red-800">{locationError}</span>
+                </div>
+              </motion.div>
+            )}
+
+            {userLocation && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-green-50 border border-green-200 rounded-xl p-4"
+              >
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-5 h-5 text-green-600" />
+                  <span className="text-sm text-green-800">
+                    현재 위치가 설정되었습니다
+                  </span>
+                </div>
+              </motion.div>
+            )}
 
             {/* Naver Map */}
             <motion.div
@@ -240,14 +428,33 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
                   <MapPin className="w-4 h-4 mr-2" />
                   지도 열기
                 </Button>
-                <Navigation className="w-4 h-4 mr-2" />
                 <Button
-                  onClick={handleNavigation}
-                  className="w-full bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl"
+                  onClick={handleNavigationFromCurrentLocation}
+                  disabled={locationLoading}
+                  className="w-full bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl disabled:opacity-50"
                 >
+                  {locationLoading ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Navigation className="w-4 h-4 mr-2" />
+                  )}
                   길찾기
                 </Button>
               </div>
+
+              {/* 기본 길찾기 버튼 (위치 권한이 없을 때를 위한 대안) */}
+              {locationError && (
+                <div className="mt-2">
+                  <Button
+                    onClick={handleNavigation}
+                    variant="outline"
+                    className="w-full rounded-xl border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+                  >
+                    <Navigation className="w-4 h-4 mr-2" />
+                    기본 길찾기
+                  </Button>
+                </div>
+              )}
             </motion.div>
 
             {/* Getting There */}

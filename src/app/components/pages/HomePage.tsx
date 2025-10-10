@@ -7,7 +7,7 @@ interface HomePageProps {
   organizer: string;
   concertDate: string;
   concertTime: string;
-  venue: string;
+  venueDetail: string;
 }
 
 export function HomePage({
@@ -16,7 +16,7 @@ export function HomePage({
   organizer,
   concertDate,
   concertTime,
-  venue,
+  venueDetail,
 }: HomePageProps) {
   return (
     <div className="min-h-screen relative overflow-hidden pb-20">
@@ -40,24 +40,70 @@ export function HomePage({
           transition={{ duration: 0.8 }}
           className="text-center space-y-5 mb-10"
         >
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 bg-white/95 px-5 py-2 rounded-full shadow-sm">
-              <Music className="w-4 h-4 text-emerald-700" />
-              <span className="text-xs text-emerald-800 tracking-wide">
-                {subtitle}
-              </span>
-            </div>
+          <div className="space-y-4">
+            <p
+              className="text-sm text-white/95 tracking-wider"
+              style={{
+                color: '#FFFEF7',
+                fontWeight: 500,
+                textShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                letterSpacing: '0.05em',
+                transform: 'rotate(-1deg)',
+              }}
+            >
+              {subtitle}
+            </p>
           </div>
 
-          <div className="space-y-2 px-4">
-            <h1 className="text-4xl text-white-900">{title}</h1>
-            <p className="text-base text-gray-700">{organizer}</p>
+          {/* Main Title - Calligraphy Style */}
+          <div className="px-4 py-8">
+            <h1
+              className="text-6xl leading-tight tracking-wide"
+              style={{
+                fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
+                fontWeight: 900,
+                color: '#FFFEF7',
+                textShadow:
+                  '5px 5px 15px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.2)',
+                letterSpacing: '0.05em',
+                transform: 'rotate(-1deg)',
+              }}
+            >
+              {title}
+            </h1>
           </div>
 
-          <div className="space-y-1.5 pt-2">
-            <p className="text-xl text-gray-800">{concertDate}</p>
-            <p className="text-lg text-gray-700">{concertTime}</p>
-            <p className="text-lg text-gray-700">{venue}</p>
+          <div className="space-y-3 pt-4">
+            <p
+              className="text-base text-white/95"
+              style={{
+                color: '#FFFEF7',
+                fontWeight: 500,
+                textShadow: '0 2px 8px rgba(0,0,0,0.3)',
+              }}
+            >
+              {concertDate}
+            </p>
+            <p
+              className="text-sm text-white/90"
+              style={{
+                color: '#FFFEF7',
+                fontWeight: 500,
+                textShadow: '0 2px 8px rgba(0,0,0,0.3)',
+              }}
+            >
+              {concertTime}
+            </p>{' '}
+            <p
+              className="text-sm text-white/90"
+              style={{
+                color: '#FFFEF7',
+                fontWeight: 500,
+                textShadow: '0 2px 8px rgba(0,0,0,0.3)',
+              }}
+            >
+              {venueDetail}
+            </p>
           </div>
         </motion.div>
 
@@ -66,11 +112,34 @@ export function HomePage({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="text-center"
+          className="text-center mt-12"
         >
-          <p className="text-base text-gray-800 bg-white/90 px-8 py-3 rounded-full inline-block shadow-sm">
-            여러분을 초대합니다
+          <p
+            className="text-lg text-white/95 px-8 py-3 rounded-full inline-block"
+            style={{
+              color: '#FFFEF7',
+              fontWeight: 500,
+              textShadow: '0 2px 8px rgba(0,0,0,0.4)',
+              fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
+            }}
+          >
+            여러분을 초대합니다.
           </p>
+        </motion.div>
+
+        {/* Organizer Badge */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          className="mt-8"
+        >
+          <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm px-3 py-2.5 rounded-full shadow-lg">
+            <Music className="w-4 h-4 text-emerald-700" />
+            <span className="text-xs text-emerald-800 tracking-wide">
+              {organizer}
+            </span>
+          </div>
         </motion.div>
       </div>
     </div>
