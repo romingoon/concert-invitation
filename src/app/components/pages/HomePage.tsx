@@ -32,10 +32,12 @@ export function HomePage({
       <div className="absolute inset-0">
         <Image
           src="/images/background.jpg"
+          className="w-full h-full object-cover"
           alt="Background"
           fill
           priority
-          className="w-full h-full object-cover"
+          placeholder="blur"
+          blurDataURL="image/jpeg;base64,..." // 자동 생성됨
         />
         <div className="absolute inset-0 bg-white/10" />
       </div>
