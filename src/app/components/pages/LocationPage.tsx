@@ -8,11 +8,11 @@ import {
   CarFront,
   TramFront,
   Loader2,
-  AlertCircle,
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Script from 'next/script';
+import type { NaverMap } from '@/types/naver-maps';
 
 interface LocationPageProps {
   venue: string;
@@ -27,6 +27,8 @@ interface UserLocation {
 
 export function LocationPage({ venue, venueAddress }: LocationPageProps) {
   const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<NaverMap | null>(null); // 지도 인스턴스 저장
+  const [scriptLoaded, setScriptLoaded] = useState(false); // 스크립트 로딩 상태
   const [mapLoaded, setMapLoaded] = useState(false);
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const [locationLoading, setLocationLoading] = useState(false);
@@ -34,8 +36,8 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
 
   // 새문안교회 좌표
   const CHURCH_COORDS = {
-    lat: 37.5720937,
-    lng: 126.9730817,
+    lat: 37.57064012784,
+    lng: 126.9735638379,
   };
 
   // 사용자 현재 위치 가져오기
@@ -217,34 +219,43 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
 
   // 네이버 지도 초기화
   const initializeMap = useCallback(() => {
-    if (!mapRef.current || !window.naver || !window.naver.maps) return;
+    if (!mapRef.current || !window.naver || !window.naver.maps) {
+      console.error('지도 초기화 실패: 필수 조건 미충족');
+      return;
+    }
 
-    const location = new window.naver.maps.LatLng(
-      CHURCH_COORDS.lat,
-      CHURCH_COORDS.lng
-    );
+    // 이미 지도가 생성되어 있으면 재생성하지 않음
+    if (mapInstanceRef.current) {
+      console.log('지도가 이미 생성되어 있습니다.');
+      return;
+    }
+    try {
+      const location = new window.naver.maps.LatLng(
+        CHURCH_COORDS.lat,
+        CHURCH_COORDS.lng
+      );
 
-    const mapOptions = {
-      center: location,
-      zoom: 17,
-      zoomControl: true,
-      zoomControlOptions: {
-        position: window.naver.maps.Position.TOP_RIGHT,
-      },
-      scaleControl: false,
-      logoControl: false,
-      mapDataControl: false,
-    };
+      const mapOptions = {
+        center: location,
+        zoom: 17,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: window.naver.maps.Position.TOP_RIGHT,
+        },
+        scaleControl: false,
+        logoControl: false,
+        mapDataControl: false,
+      };
 
-    const map = new window.naver.maps.Map(mapRef.current, mapOptions);
-
-    // 교회 마커 추가
-    new window.naver.maps.Marker({
-      position: location,
-      map: map,
-      title: venue,
-      icon: {
-        content: `
+      const map = new window.naver.maps.Map(mapRef.current, mapOptions);
+      mapInstanceRef.current = map;
+      // 교회 마커 추가
+      new window.naver.maps.Marker({
+        position: location,
+        map: map,
+        title: venue,
+        icon: {
+          content: `
           <div style="
             position: relative;
             background: #065f46;
@@ -270,24 +281,24 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
             "></div>
           </div>
         `,
-        size: new window.naver.maps.Size(100, 40),
-        anchor: new window.naver.maps.Point(50, 45),
-      },
-    });
+          size: new window.naver.maps.Size(100, 40),
+          anchor: new window.naver.maps.Point(50, 45),
+        },
+      });
 
-    // 사용자 위치가 있으면 사용자 위치 마커도 추가
-    if (userLocation) {
-      const userLocationLatLng = new window.naver.maps.LatLng(
-        userLocation.latitude,
-        userLocation.longitude
-      );
+      // 사용자 위치가 있으면 사용자 위치 마커도 추가
+      if (userLocation) {
+        const userLocationLatLng = new window.naver.maps.LatLng(
+          userLocation.latitude,
+          userLocation.longitude
+        );
 
-      new window.naver.maps.Marker({
-        position: userLocationLatLng,
-        map: map,
-        title: '현재 위치',
-        icon: {
-          content: `
+        new window.naver.maps.Marker({
+          position: userLocationLatLng,
+          map: map,
+          title: '현재 위치',
+          icon: {
+            content: `
             <div style="
               width: 20px;
               height: 20px;
@@ -297,13 +308,17 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
               box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             "></div>
           `,
-          size: new window.naver.maps.Size(20, 20),
-          anchor: new window.naver.maps.Point(10, 10),
-        },
-      });
-    }
+            size: new window.naver.maps.Size(20, 20),
+            anchor: new window.naver.maps.Point(10, 10),
+          },
+        });
+      }
 
-    setMapLoaded(true);
+      setMapLoaded(true);
+      console.log('지도 초기화 완료');
+    } catch (error) {
+      console.error('지도 생성 중 오류 발생:', error);
+    }
   }, [CHURCH_COORDS.lat, CHURCH_COORDS.lng, userLocation, venue]);
 
   // 컴포넌트 마운트 시 현재 위치 가져오기 시도
@@ -315,7 +330,32 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
       });
     }
   }, []);
+  // 스크립트 로드 완료 시 지도 초기화
+  const handleScriptLoad = useCallback(() => {
+    console.log('네이버 지도 스크립트 로드 완료');
+    setScriptLoaded(true);
+  }, []);
 
+  // 스크립트 로드 후 지도 초기화
+  useEffect(() => {
+    if (scriptLoaded && mapRef.current) {
+      // 약간의 딜레이를 주어 DOM이 완전히 준비되도록 함
+      const timer = setTimeout(() => {
+        initializeMap();
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [scriptLoaded, initializeMap]);
+
+  // 컴포넌트 마운트 시 현재 위치 가져오기
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      getCurrentLocation().catch(() => {
+        console.log('현재 위치를 가져올 수 없습니다.');
+      });
+    }
+  }, []);
   // 사용자 위치가 업데이트되면 지도도 다시 초기화
   useEffect(() => {
     if (mapLoaded && userLocation) {
@@ -330,7 +370,10 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
         strategy="beforeInteractive"
         type="text/javascript"
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}
-        onReady={initializeMap}
+        onLoad={handleScriptLoad}
+        onError={() => {
+          console.error('네이버 지도 스크립트 로드 실패');
+        }}
       />
 
       <div className="min-h-screen bg-stone-50 pb-24 overflow-y-auto">
@@ -364,50 +407,6 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
               </div>
             </motion.div>
 
-            {/* 현재 위치 상태 표시 */}
-            {locationLoading && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-blue-50 border border-blue-200 rounded-xl p-4"
-              >
-                <div className="flex items-center gap-3">
-                  <Loader2 className="w-5 h-5 text-blue-600 animate-spin" />
-                  <span className="text-sm text-blue-800">
-                    현재 위치를 가져오는 중...
-                  </span>
-                </div>
-              </motion.div>
-            )}
-
-            {locationError && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-red-50 border border-red-200 rounded-xl p-4"
-              >
-                <div className="flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-red-800">{locationError}</span>
-                </div>
-              </motion.div>
-            )}
-
-            {userLocation && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-green-50 border border-green-200 rounded-xl p-4"
-              >
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-5 h-5 text-green-600" />
-                  <span className="text-sm text-green-800">
-                    현재 위치가 설정되었습니다
-                  </span>
-                </div>
-              </motion.div>
-            )}
-
             {/* Naver Map */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -415,11 +414,23 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
               transition={{ delay: 0.2 }}
               className="bg-white rounded-2xl p-4 shadow-sm"
             >
+              {' '}
+              {/* 지도 영역 */}
               <div
                 ref={mapRef}
-                className="w-full h-64 rounded-xl overflow-hidden bg-gray-100"
-              />
-
+                className="w-full h-64 rounded-xl overflow-hidden bg-gray-100 relative"
+              >
+                {/* 로딩 인디케이터 */}
+                {!mapLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                    <div className="text-center">
+                      <Loader2 className="w-8 h-8 animate-spin text-emerald-700 mx-auto mb-2" />
+                      <p className="text-sm text-gray-600">지도 로딩 중...</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+              {/* 버튼 영역 */}
               <div className="grid grid-cols-2 gap-2 mt-4">
                 <Button
                   onClick={handleOpenNaverMap}
@@ -441,7 +452,6 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
                   길찾기
                 </Button>
               </div>
-
               {/* 기본 길찾기 버튼 (위치 권한이 없을 때를 위한 대안) */}
               {locationError && (
                 <div className="mt-2">

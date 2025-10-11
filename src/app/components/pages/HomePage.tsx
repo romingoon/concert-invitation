@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { Music } from 'lucide-react';
 import Image from 'next/image';
+import '../../global.css';
+import localFont from 'next/font/local';
 interface HomePageProps {
   title: string;
   subtitle: string;
@@ -9,6 +11,12 @@ interface HomePageProps {
   concertTime: string;
   venueDetail: string;
 }
+
+const byulbam = localFont({
+  src: '../../fonts/byulbam.ttf',
+  variable: '--font-byulbam',
+  display: 'swap',
+});
 
 export function HomePage({
   title,
@@ -58,13 +66,11 @@ export function HomePage({
           {/* Main Title - Calligraphy Style */}
           <div className="px-4 py-8">
             <h1
-              className="text-6xl leading-tight tracking-wide"
+              className={`${byulbam.variable} font-byulbam text-4xl leading-tight tracking-wide text-shadow-lg/70`}
               style={{
-                fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
+                fontSize: '2.25rem',
                 fontWeight: 900,
                 color: '#FFFEF7',
-                textShadow:
-                  '5px 5px 15px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.2)',
                 letterSpacing: '0.05em',
                 transform: 'rotate(-1deg)',
               }}

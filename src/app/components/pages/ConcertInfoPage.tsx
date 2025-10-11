@@ -8,11 +8,7 @@ interface ConcertInfoPageProps {
   imageUrl?: string;
 }
 
-export function ConcertInfoPage({
-  title,
-  subtitle,
-  organizer,
-}: ConcertInfoPageProps) {
+export function ConcertInfoPage({ title, organizer }: ConcertInfoPageProps) {
   return (
     <div className="min-h-screen bg-stone-50 pb-24 overflow-y-auto">
       <div className="max-w-lg mx-auto">
@@ -32,7 +28,7 @@ export function ConcertInfoPage({
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-2xl p-6 shadow-sm"
+            className="bg-white rounded-2xl p-6 shadow-lg"
           >
             <div className="flex items-center gap-2.5 mb-4">
               <div className="p-2 bg-emerald-50 rounded-lg">
@@ -64,7 +60,7 @@ export function ConcertInfoPage({
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-6 shadow-sm"
+            className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-6 shadow-lg"
           >
             <div className="flex items-center gap-2.5 mb-4">
               <div className="p-2 bg-emerald-700 rounded-lg">

@@ -68,32 +68,32 @@ export function ProgramPage() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="pt-8 pb-6 px-6 text-center"
+          className="pt-6 pb-4 px-4 text-center"
         >
           <h2 className="text-2xl text-gray-900 mb-1">연주 프로그램</h2>
           <p className="text-sm text-gray-600">Program</p>
         </motion.div>
 
         {/* Program List */}
-        <div className="px-6 space-y-3">
+        <div className="px-6 space-y-2">
           {programs.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
-              className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="flex gap-4">
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start gap-2 mb-1">
-                    <ListMusic className="w-4 h-4 text-emerald-700 mt-0.5 flex-shrink-0" />
+                    <ListMusic className="w-5 h-5 text-emerald-700 mt-0.5 flex-shrink-0" />
                     <h3 className="text-base text-gray-900 leading-snug">
                       {item.songTitle}
                     </h3>
 
-                    <p className="text-base text-gray-600 text-xs text-balance">
+                    <p className="text-base text-gray-600 text-xs align-bottom">
                       &#40;{item.composer}&#41;
                     </p>
                   </div>
@@ -107,18 +107,6 @@ export function ProgramPage() {
             </motion.div>
           ))}
         </div>
-
-        {/* Footer Note */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-6 mx-6 p-4 bg-emerald-50 rounded-xl border border-emerald-100"
-        >
-          <p className="text-xs text-emerald-900 text-center leading-relaxed">
-            프로그램은 현장 사정에 따라 변경될 수 있습니다
-          </p>
-        </motion.div>
       </div>
     </div>
   );
