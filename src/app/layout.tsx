@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './global.css';
 import ImagePreloader from './components/ImagePreloader';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://concert-invitation.vercel.app/'),
@@ -34,7 +35,9 @@ export default function RootLayout({
     <html lang="ko">
       <body suppressHydrationWarning>
         <ImagePreloader />
-        <main className="pb-20">{children}</main>
+        <main className="pb-20">
+          {children} <Analytics />
+        </main>
       </body>
     </html>
   );
