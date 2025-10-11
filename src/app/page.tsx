@@ -25,7 +25,7 @@ export default function App() {
     organizer: '새문안교회 새로핌찬양대',
     concertDate: '2025년 10월 18일(토)',
     concertTime: '오후 3시',
-    venue: '새문안교회',
+    venue: '대한예수교장로회 새문안교회',
     venueDetail: '새문안교회 1층 새문안홀',
     venueAddress: '서울특별시 종로구 새문안로 79',
     heroImage:

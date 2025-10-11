@@ -66,9 +66,9 @@ export function HomePage({
           {/* Main Title - Calligraphy Style */}
           <div className="px-4 py-8">
             <h1
-              className={`${byulbam.variable} font-byulbam text-4xl leading-tight tracking-wide text-shadow-lg/70`}
+              className={`${byulbam.variable} font-byulbam leading-tight tracking-wide text-shadow-lg/70`}
               style={{
-                fontSize: '2.25rem',
+                fontSize: '2rem',
                 fontWeight: 900,
                 color: '#FFFEF7',
                 letterSpacing: '0.05em',
