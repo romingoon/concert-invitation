@@ -36,8 +36,8 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
 
   // 새문안교회 좌표
   const CHURCH_COORDS = {
-    lat: 37.57064012784,
-    lng: 126.9735638379,
+    lat: 37.570825106,
+    lng: 126.973580414,
   };
 
   // 사용자 현재 위치 가져오기
@@ -370,7 +370,7 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
         strategy="beforeInteractive"
         type="text/javascript"
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}
-        onLoad={handleScriptLoad}
+        onReady={handleScriptLoad}
         onError={() => {
           console.error('네이버 지도 스크립트 로드 실패');
         }}

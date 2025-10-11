@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './global.css';
 import ImagePreloader from './components/ImagePreloader';
 import { Analytics } from '@vercel/analytics/next';
+import KakaoScript from './components/KakaoScript';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://concert-invitation.vercel.app/'),
@@ -37,6 +38,7 @@ export default function RootLayout({
         <ImagePreloader />
         <main className="pb-20">
           {children} <Analytics />
+          <KakaoScript />
         </main>
       </body>
     </html>
