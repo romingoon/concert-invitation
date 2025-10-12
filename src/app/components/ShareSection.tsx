@@ -13,6 +13,7 @@ interface ShareSectionProps {
 export function ShareSection({ title, url }: ShareSectionProps) {
   const [copied, setCopied] = useState(false);
   const [currentUrl, setCurrentUrl] = useState('');
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   // 클라이언트에서만 URL 가져오기
   useEffect(() => {
@@ -35,10 +36,9 @@ export function ShareSection({ title, url }: ShareSectionProps) {
     Kakao.Share.sendDefault({
       objectType: 'feed',
       content: {
-        title: title,
-        description:
-          '제5회 새로핌 교회음악 페스티벌 연주회에 여러분을 초대합니다',
-        imageUrl: '../../assets/thumnail.jpg',
+        title: '주님과 함께 걷는 길은 - 제5회 새로핌 교회음악 페스티벌 연주회',
+        description: '2025년 10월 18일(토) 오후 3시\n새문안교회 1층 새문안홀',
+        imageUrl: `${baseUrl}/images/thumbnail.jpg`,
         link: {
           mobileWebUrl: currentUrl,
           webUrl: currentUrl,
