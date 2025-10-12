@@ -11,8 +11,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: '주님과 함께 걷는 길은',
     description: '2025년 10월 18일(토) 오후 3시\n새문안교회 1층 새문안홀',
-    url: '/',
+    url: 'https://concert-invitation.vercel.app',
     siteName: '주님과 함께 걷는 길은',
+    type: 'article',
     images: [
       {
         url: '/images/thumnail.jpg',
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
       },
     ],
     locale: 'ko_KR',
-    type: 'website',
+    section: '연주회 초대장',
   },
 };
 
