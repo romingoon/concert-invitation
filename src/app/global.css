@@ -212,6 +212,10 @@
     font-weight: bolder;
   }
 
+  p {
+    white-space: pre-line;
+  }
+
   code,
   kbd,
   samp,

@@ -55,7 +55,7 @@ export function ProgramPage() {
       performers: 'sop.김보미 / pf.홍영은',
     },
     {
-      composer: 'Jay Rouse arr., Recreated by 홍영',
+      composer: 'Jay Rouse arr.\nRecreated by 홍영은',
       songTitle: '나 같은 죄인 살리신',
       performers: 'bar.이원섭 / pf.홍영은',
     },
@@ -92,7 +92,6 @@ export function ProgramPage() {
                     <h3 className="text-base text-gray-900 leading-snug">
                       {item.songTitle}
                     </h3>
-
                     <p className="text-base text-gray-600 text-xs align-bottom">
                       &#40;{item.composer}&#41;
                     </p>
