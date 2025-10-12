@@ -13,8 +13,8 @@ interface ShareSectionProps {
 export function ShareSection({ title, url }: ShareSectionProps) {
   const [copied, setCopied] = useState(false);
   const [currentUrl, setCurrentUrl] = useState('');
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
+  const imageUrl = 'https://concert-invitation.vercel.app/images/thumnail.jpg';
+  const pageUrl = 'https://concert-invitation.vercel.app';
   // 클라이언트에서만 URL 가져오기
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -36,20 +36,21 @@ export function ShareSection({ title, url }: ShareSectionProps) {
     Kakao.Share.sendDefault({
       objectType: 'feed',
       content: {
-        title: '주님과 함께 걷는 길은 - 제5회 새로핌 교회음악 페스티벌 연주회',
+        title:
+          '주님과 함께 걷는 길은 - 제5회 새로핌 교회음악 페스티벌 연주회 초대장',
         description: '2025년 10월 18일(토) 오후 3시\n새문안교회 1층 새문안홀',
-        imageUrl: `${baseUrl}/images/thumnail.jpg`,
+        imageUrl: imageUrl,
         link: {
-          mobileWebUrl: currentUrl,
-          webUrl: currentUrl,
+          mobileWebUrl: pageUrl,
+          webUrl: pageUrl,
         },
       },
       buttons: [
         {
-          title: '자세히 보기',
+          title: '초대장 보기',
           link: {
-            mobileWebUrl: currentUrl,
-            webUrl: currentUrl,
+            mobileWebUrl: pageUrl,
+            webUrl: pageUrl,
           },
         },
       ],
