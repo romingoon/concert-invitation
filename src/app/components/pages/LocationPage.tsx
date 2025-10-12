@@ -9,9 +9,11 @@ import {
   TramFront,
   Loader2,
 } from 'lucide-react';
+import { FaChurch } from 'react-icons/fa';
 import { Button } from '../ui/button';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import type { NaverMap } from '@/types/naver-maps';
+import { renderToStaticMarkup } from 'react-dom/server';
 
 interface LocationPageProps {
   venue: string;
@@ -33,10 +35,27 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
   const [locationLoading, setLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
 
+  const churchIconHtml = renderToStaticMarkup(
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '40px',
+        height: '40px',
+        background: '#065f46',
+        borderRadius: '50%',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.2)',
+      }}
+    >
+      <FaChurch size={24} color="#ffffff" />
+    </div>
+  );
+
   // 새문안교회 좌표
   const CHURCH_COORDS = {
-    lat: 37.570825106,
-    lng: 126.973580414,
+    lat: 37.57066632793,
+    lng: 126.9739148361,
   };
 
   // 사용자 현재 위치 가져오기
@@ -238,6 +257,8 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
       const mapOptions = {
         center: location,
         zoom: 17,
+        minZoom: 11, // 최소 줌 (너무 축소 방지)
+        maxZoom: 18,
         zoomControl: true,
         zoomControlOptions: {
           position: window.naver.maps.Position.TOP_RIGHT,
@@ -256,32 +277,7 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
         map: map,
         title: venue,
         icon: {
-          content: `
-          <div style="
-            position: relative;
-            background: #065f46;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            white-space: nowrap;
-          ">
-            ${venue}
-            <div style="
-              position: absolute;
-              bottom: -6px;
-              left: 50%;
-              transform: translateX(-50%);
-              width: 0;
-              height: 0;
-              border-left: 6px solid transparent;
-              border-right: 6px solid transparent;
-              border-top: 6px solid #065f46;
-            "></div>
-          </div>
-        `,
+          content: churchIconHtml,
           size: new window.naver.maps.Size(100, 40),
           anchor: new window.naver.maps.Point(50, 45),
         },
@@ -515,9 +511,9 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
                     <TramFront className="w-5 h-5 text-emerald-700" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm text-gray-900 mb-2 font-semibold">
+                    <h1 className="text-xl text-gray-900 mb-2 font-semibold">
                       지하철 노선 안내
-                    </h4>
+                    </h1>
                     <p className="text-sm text-gray-600 leading-relaxed">
                       5호선 광화문역 1번 출구 : 도보 약 270m (정문)
                       <br />
@@ -534,12 +530,18 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
                       <BusFront className="w-5 h-5 text-blue-700" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm text-gray-900 mb-2 font-semibold">
+                      <h1 className="text-xl text-gray-900 mb-2 font-semibold">
                         버스 노선 안내
-                      </h4>
+                      </h1>
                       <p className="text-sm text-gray-600 leading-relaxed">
-                        101 160 260 270 271 273 370 470 600 601 602 704 705 720
-                        721 741 702A 702B 7019
+                        간선버스 : 101 160 260 270 271 273 370 470 600 601 602
+                        704 705 720 721 741
+                      </p>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        지선버스 : 7019
+                      </p>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        광역버스 : 1004 8600 8601 G6005 9701 9709 9710
                       </p>
                     </div>
                   </div>
@@ -556,7 +558,7 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
                       자가용
                     </h4>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                      교회 지하주차장 이용 가능
+                      새문안교회 지하주차장 이용 가능
                     </p>
                   </div>
                 </div>
