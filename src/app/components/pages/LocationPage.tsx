@@ -11,7 +11,6 @@ import {
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useEffect, useRef, useState, useCallback } from 'react';
-import Script from 'next/script';
 import type { NaverMap } from '@/types/naver-maps';
 
 interface LocationPageProps {
@@ -126,10 +125,7 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
       const appStoreUrl = 'https://itunes.apple.com/app/id311867728?mt=8';
       openIOSApp(naverMapUrl, appStoreUrl);
     } else {
-      window.open(
-        `https://map.naver.com/v5/search/${encodeURIComponent(venueAddress)}`,
-        '_blank'
-      );
+      window.open('https://naver.me/G657fW17', '_blank');
     }
   };
 
