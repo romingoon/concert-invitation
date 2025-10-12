@@ -219,6 +219,10 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
 
   // 네이버 지도 초기화
   const initializeMap = useCallback(() => {
+    console.log('지도 초기화 시도...');
+    console.log('mapRef.current:', mapRef.current);
+    console.log('window.naver:', window.naver);
+
     if (!mapRef.current || !window.naver || !window.naver.maps) {
       console.error('지도 초기화 실패: 필수 조건 미충족');
       return;
@@ -320,16 +324,61 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
       console.error('지도 생성 중 오류 발생:', error);
     }
   }, [CHURCH_COORDS.lat, CHURCH_COORDS.lng, userLocation, venue]);
+  // 수동으로 스크립트 로드하기 (더 안정적인 방법)
+  useEffect(() => {
+    // 이미 스크립트가 로드되었는지 확인
+    if (window.naver && window.naver.maps) {
+      console.log('네이버 지도 API가 이미 로드됨');
+      setScriptLoaded(true);
+      return;
+    }
 
-  // 컴포넌트 마운트 시 현재 위치 가져오기 시도
+    // 스크립트 요소 생성
+    const script = document.createElement('script');
+    script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`;
+    script.async = true;
+
+    script.onload = () => {
+      console.log('네이버 지도 스크립트 로드 완료');
+      setScriptLoaded(true);
+    };
+
+    script.onerror = () => {
+      console.error('네이버 지도 스크립트 로드 실패');
+    };
+
+    document.head.appendChild(script);
+
+    // 컴포넌트 언마운트 시 스크립트 제거
+    return () => {
+      const existingScript = document.querySelector(`script[src*="maps.js"]`);
+      if (existingScript) {
+        document.head.removeChild(existingScript);
+      }
+    };
+  }, []);
+
+  // 스크립트 로드 후 지도 초기화
+  useEffect(() => {
+    if (scriptLoaded && mapRef.current) {
+      // 약간의 딜레이를 주어 DOM과 스크립트가 완전히 준비되도록 함
+      const timer = setTimeout(() => {
+        initializeMap();
+      }, 500); // 딜레이를 늘림
+
+      return () => clearTimeout(timer);
+    }
+  }, [scriptLoaded, initializeMap]);
+
+  // 컴포넌트 마운트 시 현재 위치 가져오기 (한 번만 실행)
   useEffect(() => {
     if ('geolocation' in navigator) {
       getCurrentLocation().catch(() => {
-        // 위치를 가져올 수 없어도 앱은 정상 동작
         console.log('현재 위치를 가져올 수 없습니다.');
       });
     }
-  }, []);
+  }, []); // 빈 배열로 한 번만 실행
+
   // 스크립트 로드 완료 시 지도 초기화
   const handleScriptLoad = useCallback(() => {
     console.log('네이버 지도 스크립트 로드 완료');
@@ -365,17 +414,6 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
 
   return (
     <>
-      {/* 네이버 지도 스크립트 로드 */}
-      <Script
-        strategy="beforeInteractive"
-        type="text/javascript"
-        src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}
-        onReady={handleScriptLoad}
-        onError={() => {
-          console.error('네이버 지도 스크립트 로드 실패');
-        }}
-      />
-
       <div className="min-h-screen bg-stone-50 pb-24 overflow-y-auto">
         <div className="max-w-lg mx-auto">
           {/* Header */}
@@ -420,12 +458,16 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
                 ref={mapRef}
                 className="w-full h-64 rounded-xl overflow-hidden bg-gray-100 relative"
               >
+                {' '}
                 {/* 로딩 인디케이터 */}
                 {!mapLoaded && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
                     <div className="text-center">
                       <Loader2 className="w-8 h-8 animate-spin text-emerald-700 mx-auto mb-2" />
                       <p className="text-sm text-gray-600">지도 로딩 중...</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        스크립트 로드: {scriptLoaded ? '완료' : '진행 중'}
+                      </p>
                     </div>
                   </div>
                 )}

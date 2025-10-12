@@ -34,27 +34,28 @@ export function ConcertInfoPage({ title, organizer }: ConcertInfoPageProps) {
               <div className="p-2 bg-emerald-50 rounded-lg">
                 <Music className="w-5 h-5 text-emerald-700" />
               </div>
-              <h3 className="text-lg text-gray-900">연주회 개요</h3>
+              <h3 className="text-lg text-gray-900">연주회 소개</h3>
             </div>
             <div className="space-y-3.5 text-sm text-gray-700 leading-relaxed">
               <p>
-                &quot;{title}&quot;이라는 타이틀로 진행되는 이번 연주회는{' '}
-                {organizer}가 주최하는 교회음악 페스티벌로, 신앙의 여정을 함께
-                걸어가는 모든 이들을 위한 특별한 시간입니다.
+                ‘주님과 함께 걷는 길은’은 새문안교회 새로핌찬양대가
+                주최·주관하는 새로핌 교회음악 페스티벌입니다.
               </p>
               <p>
-                주님과 동행하는 삶의 여정을 음악으로 표현하며, 각 곡마다 담긴
-                믿음의 고백과 간증을 통해 하나님의 인도하심을 경험하는 시간이 될
-                것입니다.
+                이번 제5회 새로핌 교회음악 페스티벌 연주회는 음악 전공자가 아닌
+                일반 찬양대원들이 연주자로 나서 각자의 신앙 이야기를 음악으로
+                고백하는 특별한 무대입니다.
               </p>
               <p>
-                클래식 성가부터 현대 찬양까지 다양한 레퍼토리를 통해 세대를
-                아우르는 영적 교감을 나누며, 함께 하나님을 찬양하는 은혜로운
-                예배의 장이 펼쳐집니다.
+                전문 성악가가 아닌 평범한 성도들이 주님을 향한 사랑으로 용기
+                내어 무대에 섭니다.
+              </p>
+              <p>
+                전문적 기교보다는 진실한 마음으로, 화려함보다는 순수한 열정으로
+                드리는 찬양입니다.
               </p>
             </div>
           </motion.div>
-
           {/* Planning Intent */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -70,22 +71,23 @@ export function ConcertInfoPage({ title, organizer }: ConcertInfoPageProps) {
             </div>
             <div className="space-y-3.5 text-sm text-gray-800 leading-relaxed">
               <p>
-                이번 연주회는 신앙의 여정이 결코 혼자가 아닌, 주님과 함께 걷는
-                길임을 음악을 통해 확인하고 고백하는 시간입니다.
+                이번 페스티벌은 독창 위주로 구성되어, 각 찬양대원이 주님과 함께
+                걸어온 개인의 신앙 여정을 온전히 담아냅니다.
               </p>
               <p>
-                바쁜 일상 속에서 때로는 방황하고 지칠 때가 있지만, 찬양을 통해
-                다시 주님께로 시선을 돌리고, 그분의 인도하심 안에서 평안과
-                소망을 발견하길 소망합니다.
+                일반 찬양대원들이 독창 무대에 선다는 것은 큰 도전이지만, 자신의
+                부족함을 내어놓고 주님만을 의지하는 믿음의 행위입니다.
               </p>
               <p>
-                또한 교회 공동체가 하나 되어 찬양하며, 각자의 신앙 여정을 나누고
-                서로를 격려하는 축복의 장이 되기를 기도합니다.
+                서로 다른 목소리들이 모여 ‘주님과 함께 걷는 길’이라는 하나의
+                찬양 이야기를 완성하며, 이는 다양한 지체로 이루어진 교회
+                공동체의 아름다움을 보여줍니다.{' '}
               </p>
               <p>
-                이 연주회를 통해 모든 참석자가 주님과 더욱 깊이 동행하는 삶으로
-                나아가며, 일상에서 주님의 임재를 경험하는 은혜를 누리시기를
-                바랍니다.
+                {' '}
+                각자의 독창 무대가 살아있는 신앙 간증이 되고, 관객들에게도 “나도
+                주님께 찬양할 수 있다”는 용기와 위로를 전하는 은혜로운 시간이
+                되기를 소망합니다.
               </p>
             </div>
           </motion.div>
@@ -98,15 +100,9 @@ export function ConcertInfoPage({ title, organizer }: ConcertInfoPageProps) {
             className="bg-gray-900 rounded-2xl p-6 shadow-sm"
           >
             <p className="text-sm italic text-gray-100 leading-relaxed mb-3">
-              너는 마음을 다하여 여호와를 신뢰하고
-              <br />
-              네 명철을 의지하지 말라
-              <br />
-              너는 범사에 그를 인정하라
-              <br />
-              그리하면 네 길을 지도하시리라
+              “여호와께서 내 앞에서 가시며 너와 함께 하실 것이라”
             </p>
-            <p className="text-xs text-gray-400">- 잠언 3:5-6</p>
+            <p className="text-xs text-gray-400">- 신명기 31:8</p>
           </motion.div>
 
           {/* Footer Note */}
@@ -117,7 +113,7 @@ export function ConcertInfoPage({ title, organizer }: ConcertInfoPageProps) {
             className="bg-emerald-50 rounded-xl p-4 border border-emerald-100"
           >
             <p className="text-xs text-emerald-900 text-center">
-              주님의 이름으로 여러분을 환영합니다
+              주님의 이름으로 여러분을 환영합니다!
             </p>
           </motion.div>
         </div>
