@@ -17,7 +17,7 @@ export function ProgramPage() {
     {
       composer: 'C. Frank',
       songTitle: '생명의 양식',
-      performers: 'bar.이경진 / org.김보미',
+      performers: 'bar.이경진 / pf.김보미',
     },
     {
       composer: '오병희',

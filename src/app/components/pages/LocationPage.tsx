@@ -375,12 +375,6 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
     }
   }, []); // 빈 배열로 한 번만 실행
 
-  // 스크립트 로드 완료 시 지도 초기화
-  const handleScriptLoad = useCallback(() => {
-    console.log('네이버 지도 스크립트 로드 완료');
-    setScriptLoaded(true);
-  }, []);
-
   // 스크립트 로드 후 지도 초기화
   useEffect(() => {
     if (scriptLoaded && mapRef.current) {

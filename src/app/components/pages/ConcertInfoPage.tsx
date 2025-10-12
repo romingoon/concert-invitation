@@ -8,7 +8,7 @@ interface ConcertInfoPageProps {
   imageUrl?: string;
 }
 
-export function ConcertInfoPage({ title, organizer }: ConcertInfoPageProps) {
+export function ConcertInfoPage({ title }: ConcertInfoPageProps) {
   return (
     <div className="min-h-screen bg-stone-50 pb-24 overflow-y-auto">
       <div className="max-w-lg mx-auto">

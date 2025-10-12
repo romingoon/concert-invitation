@@ -56,23 +56,6 @@ export function ShareSection({ title, url }: ShareSectionProps) {
     });
   };
 
-  // sendScrap 방식 (OG 태그 기반)
-  const handleKakaoShareScrap = () => {
-    if (typeof window === 'undefined') return;
-
-    const { Kakao } = window;
-
-    if (!Kakao || !Kakao.isInitialized()) {
-      alert('카카오 SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
-      return;
-    }
-
-    // sendScrap: OG 태그를 기반으로 자동 생성
-    Kakao.Share.sendScrap({
-      requestUrl: currentUrl,
-    });
-  };
-
   const handleCopyLink = async () => {
     if (!currentUrl) return;
 
@@ -81,6 +64,7 @@ export function ShareSection({ title, url }: ShareSectionProps) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
+      console.error('클립보드 복사 실패:', err);
       // Fallback
       const textArea = document.createElement('textarea');
       textArea.value = currentUrl;
@@ -95,6 +79,7 @@ export function ShareSection({ title, url }: ShareSectionProps) {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       } catch (fallbackErr) {
+        console.error('Fallback 복사 실패:', fallbackErr);
         alert(`링크를 복사하세요: ${currentUrl}`);
       }
 
