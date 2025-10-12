@@ -15,7 +15,7 @@ export function ProgramPage() {
       performers: 'sop.임서연 / pf.김윤희',
     },
     {
-      composer: 'C. Frank',
+      composer: 'C. Franck',
       songTitle: '생명의 양식',
       performers: 'bar.이경진 / pf.김보미',
     },
@@ -56,7 +56,7 @@ export function ProgramPage() {
     },
     {
       composer: '',
-      songTitle: '',
+      songTitle: '나 같은 죄인 살리신',
       performers: 'bar.이원섭 / pf.홍영은',
     },
   ];

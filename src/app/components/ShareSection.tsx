@@ -13,7 +13,7 @@ interface ShareSectionProps {
 export function ShareSection({ title, url }: ShareSectionProps) {
   const [copied, setCopied] = useState(false);
   const [currentUrl, setCurrentUrl] = useState('');
-  const imageUrl = 'https://concert-invitation.vercel.app/images/feedthum.jpg';
+  const imageUrl = 'https://concert-invitation.vercel.app/images/kakaothum.jpg';
   const pageUrl = 'https://concert-invitation.vercel.app';
   // 클라이언트에서만 URL 가져오기
   useEffect(() => {

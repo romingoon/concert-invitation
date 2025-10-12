@@ -21,17 +21,15 @@ export default function App() {
 
   const concertData = {
     title: '주님과 함께 걷는 길은',
-    subtitle: '새로핌 교회음악 페스티벌 연주회',
+    subtitle: '제5회 새로핌 교회음악 페스티벌 연주회',
     organizer: '새문안교회 새로핌찬양대',
     concertDate: '2025년 10월 18일(토)',
     concertTime: '오후 3시',
     venue: '대한예수교장로회 새문안교회',
     venueDetail: '새문안교회 1층 새문안홀',
     venueAddress: '서울특별시 종로구 새문안로 79',
-    heroImage:
-      'https://images.unsplash.com/photo-1584000166179-d95db66ac613?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbGFzc2ljYWwlMjBtdXNpYyUyMGNvbmNlcnQlMjBwb3N0ZXJ8ZW58MXx8fHwxNzU5Njk5NjM3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     venueImage:
-      'https://images.unsplash.com/photo-1595317428853-7d4b208b7192?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHVyY2glMjBpbnRlcmlvciUyMGNvbmNlcnQlMjBoYWxsfGVufDF8fHx8MTc1OTc4NzY2N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20191207_200%2F1575645003467FPzEl_JPEG%2Fy7NcXhRAN3M-rgQCsjWM4WE0.jpg',
   };
 
   // Handle scroll to update active tab
@@ -105,7 +103,6 @@ export default function App() {
             title={concertData.title}
             subtitle={concertData.subtitle}
             organizer={concertData.organizer}
-            imageUrl={concertData.heroImage}
           />
         </section>
 
