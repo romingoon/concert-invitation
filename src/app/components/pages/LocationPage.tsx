@@ -241,6 +241,7 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
         zoomControl: true,
         zoomControlOptions: {
           position: window.naver.maps.Position.TOP_RIGHT,
+          style: window.naver.maps.ZoomControlStyle.SMALL,
         },
         scaleControl: false,
         logoControl: false,
