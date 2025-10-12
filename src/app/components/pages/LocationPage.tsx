@@ -535,10 +535,10 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
                       </h1>
                       <p className="text-sm text-gray-600 leading-relaxed">
                         간선버스 : 101 160 260 270 271 273 370 470 600 601 602
-                        704 705 720 721 741
+                        603 704 705 706 720 721 741
                       </p>
                       <p className="text-sm text-gray-600 leading-relaxed">
-                        지선버스 : 7019
+                        지선버스 : 7011 7019
                       </p>
                       <p className="text-sm text-gray-600 leading-relaxed">
                         광역버스 : 1004 8600 8601 G6005 9701 9709 9710

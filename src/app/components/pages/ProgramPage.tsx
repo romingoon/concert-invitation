@@ -55,7 +55,7 @@ export function ProgramPage() {
       performers: 'sop.김보미 / pf.홍영은',
     },
     {
-      composer: '',
+      composer: 'Jay Rouse arr., Recreated by 홍영',
       songTitle: '나 같은 죄인 살리신',
       performers: 'bar.이원섭 / pf.홍영은',
     },
