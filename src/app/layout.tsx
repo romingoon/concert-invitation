@@ -7,11 +7,10 @@ import KakaoScript from './components/KakaoScript';
 export const metadata: Metadata = {
   metadataBase: new URL('https://concert-invitation.vercel.app/'),
   title: '주님과 함께 걷는 길은',
-  description:
-    '제5회 새로핌 교회음악 페스티벌 연주회 초대장 - 주님과 함께 걷는 길은 ',
+  description: '제5회 새로핌 교회음악 페스티벌 연주회 초대장',
   openGraph: {
     title: '주님과 함께 걷는 길은',
-    description: '제5회 새로핌 교회음악 페스티벌 연주회에 여러분을 초대합니다',
+    description: '2025년 10월 18일(토) 오후 3시\n새문안교회 1층 새문안홀',
     url: '/',
     siteName: '주님과 함께 걷는 길은',
     images: [
