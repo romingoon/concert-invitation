@@ -36,9 +36,9 @@ export function ShareSection({ title, url }: ShareSectionProps) {
       objectType: 'feed',
       content: {
         title: title,
-        description: '주님과 함께 걷는 음악회에 여러분을 초대합니다',
-        imageUrl:
-          'https://images.unsplash.com/photo-1584000166179-d95db66ac613?w=800&q=80',
+        description:
+          '제5회 새로핌 교회음악 페스티벌 연주회에 여러분을 초대합니다',
+        imageUrl: '../../assets/thumnail.jpg',
         link: {
           mobileWebUrl: currentUrl,
           webUrl: currentUrl,
