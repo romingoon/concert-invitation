@@ -415,14 +415,6 @@ export function ProgramPage() {
               {selectedSong?.lyrics}
             </div>
           </ScrollArea>
-
-          {/* Compact Footer */}
-          <div className="px-4 py-2.5 bg-gradient-to-t from-gray-50 to-transparent">
-            <div className="flex items-center justify-center gap-1.5 text-[11px] text-gray-500">
-              <ListMusic className="w-2.5 h-2.5" />
-              <span>주님과 함께 걷는 길은</span>
-            </div>
-          </div>
         </DialogContent>
       </Dialog>
     </div>
