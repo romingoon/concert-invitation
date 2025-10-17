@@ -36,7 +36,7 @@ export function ShareSection({ title, url }: ShareSectionProps) {
     Kakao.Share.sendDefault({
       objectType: 'feed',
       content: {
-        title: '주님과 함께 걷는 길은',
+        title: '주님과 함께 걷는 길은 모바일 프로그램북',
         description: '2025년 10월 18일(토) 오후 3시\n새문안교회 1층 새문안홀',
         imageUrl: imageUrl,
         link: {

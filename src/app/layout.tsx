@@ -23,7 +23,7 @@ export const metadata: Metadata = {
       },
     ],
     locale: 'ko_KR',
-    section: '연주회 초대장',
+    section: '연주회 프로그램북',
   },
 };
 

@@ -357,10 +357,10 @@ export function ProgramPage() {
                   <button
                     onClick={() => handleLyricsClick(item)}
                     className="inline-flex items-center justify-center px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg transition-colors flex-shrink-0"
-                    style={{ height: '3.5rem', width: '3.5rem' }}
+                    style={{ height: '3rem', width: '3rem' }}
                     aria-label="가사보기"
                   >
-                    <FileText className="w-9 h-9" />
+                    <FileText className="w-8 h-8" />
                   </button>
                 )}
               </div>
