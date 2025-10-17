@@ -12,6 +12,7 @@ import {
 } from '../ui/dialog';
 import { ScrollArea } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
+
 interface ProgramItem {
   composer: string;
   songTitle: string;
@@ -82,20 +83,25 @@ export function ProgramPage() {
 깊은 바다와 저 높은 산 푸른 하늘과 붉은 노을
 주신 주 솜씨 찬양해 오 놀라우신 주 영광 기뻐해​
 
-찬양 아름다운 이 세상 모든 것 만드신 우리 주님의 솜씨 노래해
+찬양 아름다운 이 세상 모든 것 
+만드신 우리 주님의 솜씨 노래해
 찬양 놀라운 이 세상 주님 찬양합니다​
 
-저 푸른 하늘 위의 새들과 저 들에 피는 작은 꽃들도
+저 푸른 하늘 위의 새들과 
+저 들에 피는 작은 꽃들도
 먹이시고 입히시며 돌봐주시네​
 
-주 형상대로 나를 빚으사 그 코에 생기를 넣으시고
+주 형상대로 나를 빚으사 
+그 코에 생기를 넣으시고
 생명을 주신 주 늘 동행하여 주시네​
 
-찬양 아름다운 이 세상 모든 것 만드신 우리 주님의 솜씨 노래해
+찬양 아름다운 이 세상 모든 것 
+만드신 우리 주님의 솜씨 노래해
 찬양 놀라운 이 세상 주를 찬양해​
 
 주 찬양 주를 찬양 이 세상 만드신 주님 찬양
-하늘의 구름도 산 위의 바람도 오 놀라우신 주 영광 기뻐해​
+하늘의 구름도 산 위의 바람도 
+오 놀라우신 주 영광 기뻐해​
 
 찬양 주 찬양 아름다운 이 세상 만드신 주
 찬양 찬양 주 찬양 주를 찬양 주 찬양​`,
@@ -104,7 +110,7 @@ export function ProgramPage() {
       composer: '홍영은 편곡',
       songTitle: '오 신실하신 주',
       performers: 'pf.홍영은',
-      description: `1923년 토마스 치좀이 예레미야 애가 3장 23절 "주의 성실하심이 크시도소이다”에 감동받아 지은 찬송입니다. 
+      description: `1923년 토마스 치좀이 예레미야 애가 3장 23절 "주의 성실하심이 크시도소이다"에 감동받아 지은 찬송입니다. 
 차분하고 서정적인 선율 속에서 평안과 위로가 느껴집니다. 피아노의 부드러운 음색이 신실하심을 깊이 전합니다.​​
 날마다 새로운 자비를 베푸시는 하나님의 변치 않는 사랑을 노래합니다.`,
       lyrics: `오 신실하신 주 내 아버지여
@@ -364,35 +370,37 @@ export function ProgramPage() {
       </div>
       {/* Lyrics Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-md max-h-[85vh] p-0 gap-0 overflow-hidden">
-          {/* Header with gradient background */}
-          <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 px-6 pt-6 pb-5">
-            <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 mt-1">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-200 to-teal-200 flex items-center justify-center shadow-sm">
-                  <ListMusic className="w-5 h-5 text-emerald-700" />
+        <DialogContent className="max-w-md max-h-[90vh] p-0 gap-0 overflow-hidden">
+          {/* Compact Header with gradient background */}
+          <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 px-4 pt-3 pb-2.5">
+            <div className="flex items-start gap-2">
+              {/* Smaller Badge */}
+              <div className="flex-shrink-0 mt-0.5">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-emerald-200 to-teal-200 flex items-center justify-center shadow-sm">
+                  <ListMusic className="w-3.5 h-3.5 text-emerald-700" />
                 </div>
               </div>
+              {/* Compact Title Section */}
               <div className="flex-1 min-w-0">
-                <DialogTitle className="text-xl text-gray-900 leading-snug mb-2 pr-8">
-                  {selectedSong?.songTitle}({selectedSong?.composer})
-                  <p className="text-emerald-800"></p>
+                <DialogTitle className="text-sm text-gray-900 leading-tight mb-0.5 pr-8">
+                  {selectedSong?.songTitle} ({selectedSong?.composer})
                 </DialogTitle>
-                <DialogDescription className="text-sm space-y-1 text-gray-600">
+                <DialogDescription className="text-xs text-gray-500">
                   {selectedSong?.performers}
                 </DialogDescription>
               </div>
             </div>
           </div>
-          {/* Song Description Section */}
+
+          {/* Song Description Section - More compact */}
           {selectedSong?.description && (
-            <div className="px-6 py-4 bg-gradient-to-b from-emerald-50/30 to-transparent">
-              <div className="flex items-start gap-2.5">
+            <div className="px-4 py-3 bg-gradient-to-b from-emerald-50/30 to-transparent">
+              <div className="flex items-start gap-2">
                 <div className="flex-shrink-0 mt-0.5">
-                  <Info className="w-4 h-4 text-emerald-600" />
+                  <Info className="w-3.5 h-3.5 text-emerald-600" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm text-gray-700 leading-relaxed">
+                  <p className="text-xs text-gray-700 leading-relaxed">
                     {selectedSong.description}
                   </p>
                 </div>
@@ -401,17 +409,17 @@ export function ProgramPage() {
           )}
           <Separator className="bg-emerald-100" />
 
-          {/* Lyrics Content with ScrollArea */}
-          <ScrollArea className="h-[calc(85vh-180px)] px-6 py-5">
-            <div className="whitespace-pre-line text-[15px] text-gray-700 leading-[1.8] text-center">
+          {/* Lyrics Content with ScrollArea - Increased height */}
+          <ScrollArea className="h-[calc(90vh-200px)] px-4 py-4">
+            <div className="whitespace-pre-line text-sm text-gray-700 leading-[1.8] text-center">
               {selectedSong?.lyrics}
             </div>
           </ScrollArea>
 
-          {/* Footer */}
-          <div className="px-6 py-4 bg-gradient-to-t from-gray-50 to-transparent">
-            <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-              <ListMusic className="w-3 h-3" />
+          {/* Compact Footer */}
+          <div className="px-4 py-2.5 bg-gradient-to-t from-gray-50 to-transparent">
+            <div className="flex items-center justify-center gap-1.5 text-[11px] text-gray-500">
+              <ListMusic className="w-2.5 h-2.5" />
               <span>주님과 함께 걷는 길은</span>
             </div>
           </div>
