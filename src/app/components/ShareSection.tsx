@@ -46,7 +46,7 @@ export function ShareSection({ title, url }: ShareSectionProps) {
       },
       buttons: [
         {
-          title: '초대장 보기',
+          title: '프로그램북 보기',
           link: {
             mobileWebUrl: pageUrl,
             webUrl: pageUrl,
