@@ -400,7 +400,7 @@ export function ProgramPage() {
           {selectedSong?.description && (
             <div
               className="px-3 py-2 overflow-y-auto flex-shrink-0"
-              style={{ height: '12.5vh' }}
+              style={{ height: '22.5vh' }}
             >
               <div className="flex items-start gap-1.5">
                 <div className="flex-shrink-0 mt-0.5">

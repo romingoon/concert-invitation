@@ -558,12 +558,10 @@ export function LocationPage({ venue, venueAddress }: LocationPageProps) {
                       자가용
                     </h4>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                      새문안교회 지하주차장 이용 가능\n
-                      <b></b>
+                      새문안교회 지하주차장 이용 가능
                     </p>
-
                     <p className="text-sm text-gray-600 leading-relaxed">
-                      교회 지하주차장 만차시 콘코디언 빌딩 지하주차장 주차 후
+                      교회 지하주차장 만차시, 콘코디언 빌딩 지하주차장 주차 후
                       로비 안내데스크에서 주차할인 요청
                     </p>
                   </div>
