@@ -419,8 +419,8 @@ export function ProgramPage() {
 
           {/* Lyrics Content - 65% */}
           <div className="relative flex-1" style={{ height: '58.5vh' }}>
-            <ScrollArea className="h-full px-3 py-3 lyrics-scroll">
-              <div className="whitespace-pre-line text-[13px] text-gray-700 leading-[1.7] text-center pb-4">
+            <ScrollArea className="h-full w-full">
+              <div className="whitespace-pre-line text-[13px] text-gray-700 leading-[1.7] text-center pb-12">
                 {selectedSong?.lyrics}
               </div>
             </ScrollArea>
