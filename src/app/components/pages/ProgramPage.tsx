@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ListMusic, FileText, Music2, Info } from 'lucide-react';
+import { ListMusic, FileText, Music2, Info, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import {
   Dialog,
@@ -370,11 +370,12 @@ export function ProgramPage() {
       </div>
       {/* Lyrics Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-md h-[90vh] p-0 gap-0 overflow-hidden flex flex-col">
+        <DialogContent className="max-w-md h-[90vh] p-3 gap-3 overflow-hidden flex flex-col">
           {/* Compact Header - 10% */}
+
           <div
             className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 px-3 py-2 flex-shrink-0"
-            style={{ minHeight: '9vh', maxHeight: '9vh' }}
+            style={{ height: '5vh' }}
           >
             <div className="flex items-start gap-1.5 h-full">
               {/* Smaller Badge */}
@@ -385,10 +386,10 @@ export function ProgramPage() {
               </div>
               {/* Compact Title Section */}
               <div className="flex-1 min-w-0">
-                <DialogTitle className="text-[11px] text-gray-900 leading-tight mb-0.5 pr-6">
+                <DialogTitle className="text-[14px] text-gray-900 leading-tight mb-0.5 pr-6">
                   {selectedSong?.songTitle} ({selectedSong?.composer})
                 </DialogTitle>
-                <DialogDescription className="text-[10px] text-gray-500 leading-tight">
+                <DialogDescription className="text-[12px] text-gray-500 leading-tight">
                   {selectedSong?.performers}
                 </DialogDescription>
               </div>
@@ -398,15 +399,15 @@ export function ProgramPage() {
           {/* Song Description Section - 25% */}
           {selectedSong?.description && (
             <div
-              className="px-3 py-2 bg-gradient-to-b from-emerald-50/30 to-transparent flex-shrink-0 overflow-y-auto"
-              style={{ minHeight: '22.5vh', maxHeight: '22.5vh' }}
+              className="px-3 py-2 overflow-y-auto flex-shrink-0"
+              style={{ height: '12.5vh' }}
             >
               <div className="flex items-start gap-1.5">
                 <div className="flex-shrink-0 mt-0.5">
                   <Info className="w-3 h-3 text-emerald-600" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-[11px] text-gray-700 leading-[1.5]">
+                  <p className="text-[14px] text-gray-700 leading-[1.5]">
                     {selectedSong.description}
                   </p>
                 </div>
@@ -417,14 +418,20 @@ export function ProgramPage() {
           <Separator className="bg-emerald-100 flex-shrink-0" />
 
           {/* Lyrics Content - 65% */}
-          <ScrollArea
-            className="px-3 py-3 flex-1"
-            style={{ minHeight: '58.5vh', maxHeight: '58.5vh' }}
-          >
-            <div className="whitespace-pre-line text-[13px] text-gray-700 leading-[1.7] text-center">
+          <ScrollArea className="h-full px-3 py-3 lyrics-scroll">
+            <div className="whitespace-pre-line text-[13px] text-gray-700 leading-[1.7] text-center pb-4">
               {selectedSong?.lyrics}
             </div>
           </ScrollArea>
+          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
+
+          {/* 스크롤 힌트 애니메이션 */}
+          <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none flex items-end justify-center pb-1.5">
+            <div className="flex items-center gap-0.5 text-emerald-500/70 animate-bounce">
+              <ChevronDown className="w-3 h-3" />
+              <ChevronDown className="w-3 h-3 -ml-2" />
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
