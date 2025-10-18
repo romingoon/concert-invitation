@@ -477,12 +477,23 @@ export function ProgramPage() {
             <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
             {/* 스크롤 힌트 애니메이션 */}
             {showScrollHint && (
-              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none flex items-end justify-center pb-1.5">
+              <>
+                {/* 하단 gradient 오버레이 */}
+                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white via-white/95 to-transparent pointer-events-none z-10" />{' '}
                 <div className="flex items-center gap-0.5 text-emerald-500/70 animate-bounce">
-                  <ChevronDown className="w-3 h-3" />
-                  <ChevronDown className="w-3 h-3 -ml-2" />
+                  {/* 스크롤 힌트 버튼 */}
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-2 shadow-lg border border-emerald-100">
+                      <div className="flex flex-col items-center gap-1">
+                        <ChevronDown className="w-4 h-4 text-emerald-600 animate-bounce" />
+                        <span className="text-[10px] text-emerald-600 font-medium whitespace-nowrap">
+                          더 보기
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
         </DialogContent>
