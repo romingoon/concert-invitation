@@ -24,6 +24,8 @@ interface ProgramItem {
 export function ProgramPage() {
   const [selectedSong, setSelectedSong] = useState<ProgramItem | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [showScrollHint, setShowScrollHint] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const programs: ProgramItem[] = [
     {
@@ -298,6 +300,26 @@ export function ProgramPage() {
 주의 은혜 놀라워라`,
     },
   ];
+
+  // 스크롤 위치 감지
+  useEffect(() => {
+    const scrollElement = scrollRef.current;
+    if (!scrollElement) return;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollElement;
+      const isBottom = scrollTop + clientHeight >= scrollHeight - 20; // 20px 여유
+
+      setShowScrollHint(!isBottom && scrollHeight > clientHeight);
+    };
+
+    // 초기 체크
+    handleScroll();
+
+    scrollElement.addEventListener('scroll', handleScroll);
+    return () => scrollElement.removeEventListener('scroll', handleScroll);
+  }, [isDialogOpen, selectedSong]);
+
   // 뒤로가기 버튼으로 모달 닫기 처리
   useEffect(() => {
     const handlePopState = () => {
@@ -447,20 +469,21 @@ export function ProgramPage() {
 
           {/* Lyrics Content - 65% */}
           <div className="relative flex-1" style={{ height: '58.5vh' }}>
-            <ScrollArea className="h-full w-full">
+            <div ref={scrollRef} className="h-full overflow-y-auto px-3 py-3">
               <div className="whitespace-pre-line text-[13px] text-gray-700 leading-[1.7] text-center pb-12">
                 {selectedSong?.lyrics}
               </div>
-            </ScrollArea>
-            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
-
-            {/* 스크롤 힌트 애니메이션 */}
-            <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none flex items-end justify-center pb-1.5">
-              <div className="flex items-center gap-0.5 text-emerald-500/70 animate-bounce">
-                <ChevronDown className="w-3 h-3" />
-                <ChevronDown className="w-3 h-3 -ml-2" />
-              </div>
             </div>
+            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
+            {/* 스크롤 힌트 애니메이션 */}
+            {showScrollHint && (
+              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none flex items-end justify-center pb-1.5">
+                <div className="flex items-center gap-0.5 text-emerald-500/70 animate-bounce">
+                  <ChevronDown className="w-3 h-3" />
+                  <ChevronDown className="w-3 h-3 -ml-2" />
+                </div>
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>
