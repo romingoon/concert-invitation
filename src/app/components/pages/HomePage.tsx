@@ -131,7 +131,7 @@ export function HomePage({
               fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
             }}
           >
-            여러분을 초대합니다.
+            주님의 이름으로 여러분을 환영합니다!
           </p>
         </motion.div>
 
