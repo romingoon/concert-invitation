@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ListMusic, FileText, Music2, Info, ChevronDown } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Dialog,
   DialogContent,
