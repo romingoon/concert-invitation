@@ -375,7 +375,7 @@ export function ProgramPage() {
 
           <div
             className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 px-3 py-2 flex-shrink-0"
-            style={{ height: '5vh' }}
+            style={{ height: '7vh' }}
           >
             <div className="flex items-start gap-1.5 h-full">
               {/* Smaller Badge */}
@@ -418,18 +418,20 @@ export function ProgramPage() {
           <Separator className="bg-emerald-100 flex-shrink-0" />
 
           {/* Lyrics Content - 65% */}
-          <ScrollArea className="h-full px-3 py-3 lyrics-scroll">
-            <div className="whitespace-pre-line text-[13px] text-gray-700 leading-[1.7] text-center pb-4">
-              {selectedSong?.lyrics}
-            </div>
-          </ScrollArea>
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
+          <div className="relative flex-1" style={{ height: '58.5vh' }}>
+            <ScrollArea className="h-full px-3 py-3 lyrics-scroll">
+              <div className="whitespace-pre-line text-[13px] text-gray-700 leading-[1.7] text-center pb-4">
+                {selectedSong?.lyrics}
+              </div>
+            </ScrollArea>
+            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
 
-          {/* 스크롤 힌트 애니메이션 */}
-          <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none flex items-end justify-center pb-1.5">
-            <div className="flex items-center gap-0.5 text-emerald-500/70 animate-bounce">
-              <ChevronDown className="w-3 h-3" />
-              <ChevronDown className="w-3 h-3 -ml-2" />
+            {/* 스크롤 힌트 애니메이션 */}
+            <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none flex items-end justify-center pb-1.5">
+              <div className="flex items-center gap-0.5 text-emerald-500/70 animate-bounce">
+                <ChevronDown className="w-3 h-3" />
+                <ChevronDown className="w-3 h-3 -ml-2" />
+              </div>
             </div>
           </div>
         </DialogContent>
