@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ListMusic, FileText, Music2, Info, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -298,11 +298,39 @@ export function ProgramPage() {
 주의 은혜 놀라워라`,
     },
   ];
+  // 뒤로가기 버튼으로 모달 닫기 처리
+  useEffect(() => {
+    const handlePopState = () => {
+      if (isDialogOpen) {
+        setIsDialogOpen(false);
+      }
+    };
 
+    if (isDialogOpen) {
+      // 모달이 열릴 때 history state 추가
+      window.history.pushState({ modalOpen: true }, '');
+
+      // popstate 이벤트 리스너 등록
+      window.addEventListener('popstate', handlePopState);
+    }
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isDialogOpen]);
   const handleLyricsClick = (item: ProgramItem) => {
     if (item.lyrics) {
       setSelectedSong(item);
       setIsDialogOpen(true);
+    }
+  };
+
+  const handleDialogClose = (open: boolean) => {
+    setIsDialogOpen(open);
+
+    // 모달을 닫을 때 추가한 history state 제거
+    if (!open && window.history.state?.modalOpen) {
+      window.history.back();
     }
   };
 
@@ -369,7 +397,7 @@ export function ProgramPage() {
         </div>
       </div>
       {/* Lyrics Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
         <DialogContent className="max-w-md h-[90vh] p-3 gap-3 overflow-hidden flex flex-col">
           {/* Compact Header - 10% */}
 
