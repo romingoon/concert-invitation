@@ -370,48 +370,58 @@ export function ProgramPage() {
       </div>
       {/* Lyrics Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-md max-h-[90vh] p-0 gap-0 overflow-hidden">
-          {/* Compact Header with gradient background */}
-          <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 px-4 pt-3 pb-2.5">
-            <div className="flex items-start gap-2">
+        <DialogContent className="max-w-md h-[90vh] p-0 gap-0 overflow-hidden flex flex-col">
+          {/* Compact Header - 10% */}
+          <div
+            className="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 px-3 py-2 flex-shrink-0"
+            style={{ minHeight: '9vh', maxHeight: '9vh' }}
+          >
+            <div className="flex items-start gap-1.5 h-full">
               {/* Smaller Badge */}
-              <div className="flex-shrink-0 mt-0.5">
-                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-emerald-200 to-teal-200 flex items-center justify-center shadow-sm">
-                  <ListMusic className="w-3.5 h-3.5 text-emerald-700" />
+              <div className="flex-shrink-0">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-emerald-200 to-teal-200 flex items-center justify-center shadow-sm">
+                  <ListMusic className="w-2.5 h-2.5 text-emerald-700" />
                 </div>
               </div>
               {/* Compact Title Section */}
               <div className="flex-1 min-w-0">
-                <DialogTitle className="text-sm text-gray-900 leading-tight mb-0.5 pr-8">
+                <DialogTitle className="text-[11px] text-gray-900 leading-tight mb-0.5 pr-6">
                   {selectedSong?.songTitle} ({selectedSong?.composer})
                 </DialogTitle>
-                <DialogDescription className="text-xs text-gray-500">
+                <DialogDescription className="text-[10px] text-gray-500 leading-tight">
                   {selectedSong?.performers}
                 </DialogDescription>
               </div>
             </div>
           </div>
 
-          {/* Song Description Section - More compact */}
+          {/* Song Description Section - 25% */}
           {selectedSong?.description && (
-            <div className="px-4 py-3 bg-gradient-to-b from-emerald-50/30 to-transparent">
-              <div className="flex items-start gap-2">
+            <div
+              className="px-3 py-2 bg-gradient-to-b from-emerald-50/30 to-transparent flex-shrink-0 overflow-y-auto"
+              style={{ minHeight: '22.5vh', maxHeight: '22.5vh' }}
+            >
+              <div className="flex items-start gap-1.5">
                 <div className="flex-shrink-0 mt-0.5">
-                  <Info className="w-3.5 h-3.5 text-emerald-600" />
+                  <Info className="w-3 h-3 text-emerald-600" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs text-gray-700 leading-relaxed">
+                  <p className="text-[11px] text-gray-700 leading-[1.5]">
                     {selectedSong.description}
                   </p>
                 </div>
               </div>
             </div>
           )}
-          <Separator className="bg-emerald-100" />
 
-          {/* Lyrics Content with ScrollArea - Increased height */}
-          <ScrollArea className="h-[calc(90vh-200px)] px-4 py-4">
-            <div className="whitespace-pre-line text-sm text-gray-700 leading-[1.8] text-center">
+          <Separator className="bg-emerald-100 flex-shrink-0" />
+
+          {/* Lyrics Content - 65% */}
+          <ScrollArea
+            className="px-3 py-3 flex-1"
+            style={{ minHeight: '58.5vh', maxHeight: '58.5vh' }}
+          >
+            <div className="whitespace-pre-line text-[13px] text-gray-700 leading-[1.7] text-center">
               {selectedSong?.lyrics}
             </div>
           </ScrollArea>
